@@ -111,7 +111,7 @@ passwordsMatchValidator(group: UntypedFormGroup) {
     }
   
   onSubmit() {
-    if (this.docForm.valid) {
+   /* if (this.docForm.valid) {
       console.log('Form Value', this.docForm.value);
       const employeeData=this.docForm.value
 
@@ -130,7 +130,7 @@ passwordsMatchValidator(group: UntypedFormGroup) {
     } else {
       console.log('Form is invalid');
       this.markFormGroupTouched();
-    }
+    }*/
   }
   
   // Méthode utilitaire pour marquer tous les champs comme touchés (pour afficher les erreurs)

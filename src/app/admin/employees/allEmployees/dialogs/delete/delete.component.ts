@@ -9,7 +9,7 @@ import {
 import { Component, Inject } from '@angular/core';
 import { EmployeesService } from '../../employees.service';
 import { MatButtonModule } from '@angular/material/button';
-import { Employees } from '../../employees.model';
+import { Plateforme } from '../../employees.model';
 
 export interface DialogData {
   id: number;
@@ -43,7 +43,7 @@ export class AllEmployeesDeleteComponent {
   confirmDelete(): void {
    
 
-    this.employeesService.deleteEmployee(this.data.id).subscribe({
+   /* this.employeesService.deleteEmployee(this.data.id).subscribe({
       next: (response) => {
         // console.log('Delete Response:', response);
         this.dialogRef.close(response); // Close with the response data
@@ -54,5 +54,5 @@ export class AllEmployeesDeleteComponent {
         // Handle the error appropriately
       },
     });
-  }
-}
+  }*/
+}}

@@ -18,7 +18,7 @@ export class EmployeeSalaryService {
   }
 
   /** GET: Fetch all employee salaries */
-  getAllEmployeeSalaries(): Observable<EmployeeSalary[]> {
+  getPlateformealaries(): Observable<EmployeeSalary[]> {
     return this.httpClient
       .get<EmployeeSalary[]>(this.API_URL)
       .pipe(catchError(this.handleError));

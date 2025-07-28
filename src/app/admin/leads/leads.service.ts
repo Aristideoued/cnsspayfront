@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Leads } from './leads.model';
 import { environment } from 'environments/environment.development';
 import { Employe } from '@core/models/employe';
-import { Employees } from '../employees/allEmployees/employees.model';
+import { Plateforme } from '../employees/allEmployees/employees.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,7 @@ export class LeadsService {
     );
   }
 
-      addLeads(leads: Leads): Observable<Employees> {
+      addLeads(leads: Leads): Observable<Plateforme> {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': this.token
@@ -63,7 +63,7 @@ export class LeadsService {
         return this.httpClient
           .post<any>(environment.apiUrl + "addChefDepartement",JSON.stringify(userData) , { headers })
           .pipe(
-            map((response) => new Employees({
+            map((response) => new Plateforme({
               id: response.id 
              
             })),
@@ -75,7 +75,7 @@ export class LeadsService {
 
 
 
-           updateLeads(leads: Leads): Observable<Employees> {
+           updateLeads(leads: Leads): Observable<Plateforme> {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': this.token
@@ -94,7 +94,7 @@ export class LeadsService {
         return this.httpClient
           .post<any>(environment.apiUrl + "update/chefDepartement",JSON.stringify(userData) , { headers })
           .pipe(
-            map((response) => new Employees({
+            map((response) => new Plateforme({
               id: response.id 
              
             })),
@@ -115,7 +115,7 @@ export class LeadsService {
   }
 
 
-             deleteLeads(id: number): Observable<Employees> {
+             deleteLeads(id: number): Observable<Plateforme> {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': this.token
@@ -134,7 +134,7 @@ export class LeadsService {
         return this.httpClient
           .post<any>(environment.apiUrl + "delete/chefDepartement",JSON.stringify(userData) , { headers })
           .pipe(
-            map((response) => new Employees({
+            map((response) => new Plateforme({
               id: response.id 
              
             })),

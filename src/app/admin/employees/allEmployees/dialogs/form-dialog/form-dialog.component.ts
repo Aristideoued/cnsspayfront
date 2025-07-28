@@ -14,7 +14,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Employees } from '../../employees.model';
+import { Plateforme } from '../../employees.model';
 import { CommonModule, formatDate } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -29,7 +29,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export interface DialogData {
   id: number;
   action: string;
-  employees: Employees;
+  employees: Plateforme;
 }
 
 @Component({
@@ -54,7 +54,7 @@ export class AllEmployeesFormComponent {
   action: string;
   dialogTitle: string;
   employeesForm: UntypedFormGroup;
-  employees: Employees;
+  employees: Plateforme;
 
   genres:any[]=[{"id":1,"libelle":"Femme"},{"id":2,"libelle":"Homme"}]
 
@@ -74,10 +74,10 @@ export class AllEmployeesFormComponent {
     this.action = data.action;
     this.dialogTitle =
       this.action === 'edit'
-        ? `Edit Employee: ${data.employees.nomComplet}`
+        ? `Edit Employee: ${data.employees.nom}`
         : 'Nouveau Employee';
     this.employees =
-      this.action === 'edit' ? data.employees : new Employees({} as Employees);
+      this.action === 'edit' ? data.employees : new Plateforme({} as Plateforme);
     this.employeesForm = this.createEmployeeForm();
   }
 
@@ -93,23 +93,23 @@ export class AllEmployeesFormComponent {
     
     return this.fb.group({
       id: [this.employees.id],
-      img: [this.employees.img],
+      img: [this.employees.nom],
       nom: [this.employees.nom, [Validators.required]],
-      prenom: [this.employees.prenom, [Validators.required]],
-      email: [this.employees.email, [Validators.required, Validators.email]],
+      prenom: [this.employees.nom, [Validators.required]],
+      email: [this.employees.id, [Validators.required, Validators.email]],
      /* birthDate: [
         formatDate(this.employees.birthDate, 'yyyy-MM-dd', 'en'),
         [Validators.required],
       ],*/
      // role: [this.employees.role, [Validators.required]],
-      telephone: [this.employees.telephone, [Validators.required]],
+      telephone: [this.employees.userTelephone, [Validators.required]],
 
      
-      departement: [this.employees.departement_id|| null, [Validators.required]],
+      departement: [this.employees.userMail|| null, [Validators.required]],
     
-      titre: [this.employees.titre,[Validators.required]],
-      statut: [this.employees.statut_id,[Validators.required]],
-      genre: [this.employees.genre,[Validators.required]],
+      titre: [this.employees.userId,[Validators.required]],
+      statut: [this.employees.nom,[Validators.required]],
+      genre: [this.employees.token,[Validators.required]],
       password: [
         '',
         [Validators.required, Validators.minLength(12)],
@@ -205,7 +205,7 @@ export class AllEmployeesFormComponent {
 
 
     if(this.action!=='edit' ){
-      if( this.employeesForm.valid){
+     /* if( this.employeesForm.valid){
          const employeeData = this.employeesForm.getRawValue();
         this.employeesService.addEmployee(employeeData).subscribe({
           next: (response) => {
@@ -217,12 +217,12 @@ export class AllEmployeesFormComponent {
           },
         });
 
-      }
+      }*/
     
 
     }
     else{
-         const employeeData = this.employeesForm.getRawValue();
+       /*  const employeeData = this.employeesForm.getRawValue();
 
              this.employeesService.updateEmployee(employeeData).subscribe({
           next: (response) => {
@@ -232,7 +232,7 @@ export class AllEmployeesFormComponent {
             console.error('Update Error:', error);
             // Optionally show an error message to the user
           },
-        });
+        });*/
     }
     /*if (this.employeesForm.valid) {
       const employeeData = this.employeesForm.getRawValue();

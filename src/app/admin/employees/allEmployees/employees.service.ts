@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Employees } from './employees.model';
+import {  Plateforme } from './employees.model';
 import { environment } from 'environments/environment.development';
+import { AuthService } from '@core/service/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,43 +13,43 @@ export class EmployeesService {
   private readonly API_URL = 'assets/data/employees.json';
   token: string;
   
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,private authService: AuthService) {
         this.token='Basic ' + window.btoa(environment.username + ":" + environment.password);
     
   }
 
   /** GET: Récupérer tous les employés */
-  getAllEmployees2(): Observable<Employees[]> {
+  getPlateforme2(): Observable<Plateforme[]> {
 
      let headers= new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization:this.token})
       
     return this.httpClient
-      .get<Employees[]>(environment.apiUrl+"users",{headers:headers})
+      .get<Plateforme[]>(environment.apiUrl+"users",{headers:headers})
       .pipe(
         map((data: any[]) => 
         
-          data.map(item => new Employees(item))
+          data.map(item => new Plateforme(item))
       ),
         catchError(this.handleError)
       );
   }
 
-   getAllEmployees(): Observable<Employees[]> {
+   getPlateforme(): Observable<Plateforme[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': this.token
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
     });
 
-    return this.httpClient.get<Employees[]>(environment.apiUrl+"users", { headers });
+    return this.httpClient.get<Plateforme[]>(environment.apiUrl+"plateforme/liste", { headers });
   }
 
   /** POST: Ajouter un nouvel employé */
 
 
 
-      updateEmployee(employee: Employees): Observable<Employees> {
+      /*updateEmployee(employee: Plateforme): Observable<Plateforme> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': this.token
@@ -81,7 +82,6 @@ export class EmployeesService {
             genre: response.genre || employee.genre,
             prenom: response.prenom || employee.prenom,
            
-           // role: response.role || admin.role,
             telephone: response.phone || employee.telephone
           })),
           catchError(this.handleError)
@@ -150,34 +150,33 @@ export class EmployeesService {
             id: response.id || id
            
            
-           // role: response.role || admin.role,
           
           })),
           catchError(this.handleError)
         );
-    }
+    }*/
 
-  addEmployee2(employee: Employees): Observable<Employees> {
+  /*addEmployee2(employee: Employees): Observable<Employees> {
     return this.httpClient.post<Employees>(this.API_URL, employee).pipe(
       map(() => {
         return employee; // retourner l'employé nouvellement ajouté
       }),
       catchError(this.handleError)
     );
-  }
+  }*/
 
   /** PUT: Mettre à jour un employé existant */
-  updateEmployee2(employee: Employees): Observable<Employees> {
+ /* updateEmployee2(employee: Employees): Observable<Employees> {
     return this.httpClient.put<Employees>(`${this.API_URL}`, employee).pipe(
       map(() => {
         return employee; // retourner l'employé mis à jour
       }),
       catchError(this.handleError)
     );
-  }
+  }*/
 
   /** DELETE: Supprimer un employé par ID */
-  deleteEmployee2(id: number): Observable<number> {
+  /*deleteEmployee2(id: number): Observable<number> {
     return this.httpClient.delete<void>(`${this.API_URL}`).pipe(
       map(() => {
         return id; // retourner l'ID de l'employé supprimé
@@ -186,7 +185,7 @@ export class EmployeesService {
     );
   }
 
-  
+  */
 
   /** Gérer les erreurs d'opération Http qui ont échoué */
   private handleError(error: HttpErrorResponse): Observable<never> {

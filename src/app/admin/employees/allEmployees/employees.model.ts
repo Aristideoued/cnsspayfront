@@ -1,21 +1,18 @@
 import { formatDate } from '@angular/common';
 
-export class Employees {
-  id: number;
-  statut: string;
+export class Plateforme {
+  id: string;
+  userId: string;
   nom: string;
-  prenom: string;
-  password: string;
-  nomComplet: string;
-  genre:string;
-  titre: string;
-  telephone: string;
-  email: string;
-  departement: string;
-  departement_id: number;
-  statut_id: number;
-  img?: string;
-  role?: string;
+  url: string;
+    callbackUrl: string;
+
+  token: string;
+  commissionAgregateur: string;
+  userNomPrenom:string;
+  userTelephone: string;
+  userMail: string;
+  
 
   
   // Nouvelles propriétés pour correspondre au form-dialog
@@ -33,22 +30,18 @@ export class Employees {
   employeeStatus?: string;
   workLocation?: string;*/
 
-  constructor(employees: Partial<Employees>) {
-    this.id = employees.id || this.getRandomID();
-    this.statut = employees.statut || 'Actif';
+  constructor(employees: Partial<Plateforme>) {
+    this.id = employees.id || this.getRandomID().toString();
+    this.token = employees.token || 'Actif';
     this.nom = employees.nom || '';
-    this.nomComplet = employees.nom+" "+employees.prenom || '';
-    this.role = employees.role || 'Employee';
-    this.prenom = employees.prenom || '';
-    this.password = employees.password || '';
-    this.titre = employees.titre || '';
-    this.departement_id = employees.departement_id || 0;
-     this.statut_id = employees.statut_id || 11;
-    this.telephone = employees.telephone || '';
-    this.email = employees.email || '';
-    this.genre = employees.genre || '';
-    this.departement = employees.departement || '';
-    this.img = employees.img || 'assets/images/avatar.jpg';
+    this.commissionAgregateur = employees.commissionAgregateur || '';
+    this.userId = employees.userId || '';
+    this.userMail = employees.userMail || '';
+    this.userNomPrenom = employees.userNomPrenom || '';
+    this.userTelephone = employees.userTelephone || '';
+    this.url = employees.url || '';
+    this.callbackUrl = employees.callbackUrl || '';
+    
     
     // Initialiser les nouvelles propriétés
   /*  this.name = employees.name || this.nomComplet;

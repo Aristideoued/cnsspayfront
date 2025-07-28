@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Employees } from './employees.model';
+import { Plateforme } from './employees.model';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -64,21 +64,23 @@ import { FormsModule } from '@angular/forms';
 export class AllemployeesComponent implements OnInit, OnDestroy {
   columnDefinitions = [
     { def: 'select', label: 'Checkbox', type: 'check', visible: true },
-    { def: 'id', label: 'ID', type: 'number', visible: true },
-    { def: 'statut', label: 'Statut', type: 'status', visible: true },
-    { def: 'nomComplet', label: 'Nom Complet', type: 'name', visible: false },
-     { def: 'nom', label: 'Nom', type: 'name', visible: true },
-      { def: 'prenom', label: 'Prenom', type: 'name', visible: true },
-     { def: 'genre', label: 'Genre', type: 'text', visible: true },
-    { def: 'titre', label: 'Titre', type: 'text', visible: true },
-    { def: 'telephone', label: 'Téléphone', type: 'phone', visible: true },
-    { def: 'email', label: 'Email', type: 'email', visible: true },
-    { def: 'departement', label: 'Département', type: 'text', visible: true },
+    { def: 'id', label: 'ID', type: 'text', visible: false },
+    { def: 'userId', label: 'USERID', type: 'text', visible: false },
+        { def: 'token', label: 'Token', type: 'text', visible: false },
+
+    { def: 'nom', label: 'Nom', type: 'text', visible: true },
+    { def: 'url', label: 'Url', type: 'text', visible: true },
+        { def: 'callbackUrl', label: 'Url de retour', type: 'text', visible: true },
+
+     { def: 'commissionAgregateur', label: 'CommissionAgregateur', type: 'name', visible: true },
+     { def: 'userNomPrenom', label: 'Administrateur', type: 'text', visible: true },
+    { def: 'userTelephone', label: 'Téléphone Administrateur', type: 'phone', visible: true },
+    { def: 'userMail', label: 'Email Administrateur', type: 'email', visible: true },
     { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
   ];
   avatar="assets/images/avatar.jpg"
-  dataSource = new MatTableDataSource<Employees>([]);
-  selection = new SelectionModel<Employees>(true, []);
+  dataSource = new MatTableDataSource<Plateforme>([]);
+  selection = new SelectionModel<Plateforme>(true, []);
   contextMenuPosition = { x: '0px', y: '0px' };
   isLoading = true;
   private destroy$ = new Subject<void>();
@@ -115,15 +117,15 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
-    this.employeesService.getAllEmployees().subscribe({
+    this.employeesService.getPlateforme().subscribe({
       next: (data:any) => {
         
-        this.dataSource.data = data.contenu;
-        console.log("Les users====> ", this.dataSource.data)
+        this.dataSource.data = data.content;
+        console.log("Les plateformes====> ", this.dataSource.data)
         this.isLoading = false;
         this.refreshTable();
-        this.dataSource.filterPredicate = (data: Employees, filter: string) => {
-          const searchStr = `${data.id} ${data.statut} ${data.nom} ${data.prenom} ${data.nomComplet} ${data.titre} ${data.telephone} ${data.genre}  ${data.email} ${data.departement}`.toLowerCase();
+        this.dataSource.filterPredicate = (data: Plateforme, filter: string) => {
+          const searchStr = `${data.id} ${data.url} ${data.nom} ${data.userNomPrenom} ${data.userTelephone} ${data.userMail} ${data.commissionAgregateur}`.toLowerCase();
           return searchStr.includes(filter);
         };
       },
@@ -148,11 +150,11 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
     this.openDialog('add');
   }
 
-  editCall(row: Employees) {
+  editCall(row: Plateforme) {
     this.openDialog('edit', row);
   }
 
-  openDialog(action: 'add' | 'edit', data?: Employees) {
+  openDialog(action: 'add' | 'edit', data?: Plateforme) {
     let varDirection: Direction;
     if (localStorage.getItem('isRtl') === 'true') {
       varDirection = 'rtl';
@@ -185,7 +187,7 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateRecord(updatedRecord: Employees) {
+  private updateRecord(updatedRecord: Plateforme) {
     const index = this.dataSource.data.findIndex(
       (record) => record.id === updatedRecord.id
     );
@@ -195,7 +197,7 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteItem(row: Employees) {
+  deleteItem(row: Plateforme) {
     const dialogRef = this.dialog.open(AllEmployeesDeleteComponent, {
       data: row,
     });
@@ -232,15 +234,13 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
   exportExcel() {
     const exportData = this.dataSource.filteredData.map((x) => ({
       ID: x.id,
-      Statut: x.statut,
+      Url: x.url,
       Nom: x.nom,
-      Prénom: x.prenom,
-      'Nom Complet': x.nomComplet,
-      Titre: x.titre,
-      Téléphone: x.telephone,
-      Email: x.email,
-       Genre: x.genre,
-      Département: x.departement,
+      Admin: x.userNomPrenom,
+      'Téléphone Admin': x.userTelephone,
+      "Email admin": x.userMail,
+      CommissionAgreagateur: x.commissionAgregateur,
+      
     }));
 
     TableExportUtil.exportToExcel(exportData, 'employee_data_export');
@@ -270,7 +270,7 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onContextMenu(event: MouseEvent, item: Employees) {
+  onContextMenu(event: MouseEvent, item: Plateforme) {
     event.preventDefault();
     this.contextMenuPosition = {
       x: `${event.clientX}px`,

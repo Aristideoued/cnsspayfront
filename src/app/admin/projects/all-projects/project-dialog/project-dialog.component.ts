@@ -161,7 +161,7 @@ action: any;
 
 
     loadEmployeData() {
-      this.employeService.getAllEmployees().subscribe({
+      this.employeService.getPlateforme().subscribe({
         next: (data:any) => {
           
           this.employes = data.contenu;

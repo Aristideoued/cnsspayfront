@@ -45,6 +45,14 @@ export class EmployeesService {
     return this.httpClient.get<Plateforme[]>(environment.apiUrl+"plateforme/liste", { headers });
   }
 
+    sendMail(id:string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<any>(environment.apiUrl+"sendmail/"+id, { headers });
+  }
   /** POST: Ajouter un nouvel employé */
 
 

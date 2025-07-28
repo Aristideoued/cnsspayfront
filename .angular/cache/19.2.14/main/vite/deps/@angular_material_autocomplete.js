@@ -3,11 +3,8 @@ import {
 } from "./chunk-GGQTCN72.js";
 import "./chunk-4GJ266BU.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-FFQ72ZAP.js";
-import {
   MatOptionModule
-} from "./chunk-5SJFNEEP.js";
+} from "./chunk-2XTGIPR6.js";
 import {
   MAT_OPTGROUP,
   MAT_OPTION_PARENT_COMPONENT,
@@ -16,14 +13,17 @@ import {
   MatOptionSelectionChange,
   _countGroupLabelsBeforeOption,
   _getOptionScrollPosition
-} from "./chunk-QIUZTDUX.js";
-import "./chunk-7WCVVWTO.js";
+} from "./chunk-FQCP2X43.js";
+import "./chunk-J2SQBKII.js";
 import "./chunk-43BJ3A5V.js";
-import "./chunk-WG2TPZHV.js";
+import "./chunk-F4HUQ25J.js";
 import "./chunk-YMCKHAB3.js";
 import "./chunk-6MK2THGL.js";
 import "./chunk-PV6DH5SK.js";
 import "./chunk-OZ7C5UV6.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-FFQ72ZAP.js";
 import {
   Breakpoints
 } from "./chunk-M7HLM5N3.js";
@@ -31,7 +31,7 @@ import {
   Overlay,
   OverlayConfig,
   OverlayModule
-} from "./chunk-BXIFGQVT.js";
+} from "./chunk-QVG7D74W.js";
 import "./chunk-OIBNGD5S.js";
 import {
   TemplatePortal
@@ -39,15 +39,27 @@ import {
 import "./chunk-42FJBLFI.js";
 import "./chunk-GV5LUSDY.js";
 import {
+  CdkScrollableModule,
+  ViewportRuler
+} from "./chunk-KNACLSCK.js";
+import "./chunk-2O4WY5GE.js";
+import {
   MatCommonModule
-} from "./chunk-PWLCA5EN.js";
+} from "./chunk-GVKRYOKP.js";
 import {
   ActiveDescendantKeyManager,
   BreakpointObserver,
   addAriaReferencedId,
   removeAriaReferencedId
-} from "./chunk-ULKVH2IP.js";
+} from "./chunk-O5LM4YQL.js";
 import "./chunk-WBDYPRQ3.js";
+import {
+  _IdGenerator
+} from "./chunk-TBZTVGHX.js";
+import {
+  _getEventTarget,
+  _getFocusedElementPierceShadowDom
+} from "./chunk-KQB4LJPA.js";
 import {
   DOWN_ARROW,
   ENTER,
@@ -57,26 +69,14 @@ import {
   hasModifierKey
 } from "./chunk-MMVZ32PN.js";
 import {
-  _IdGenerator
-} from "./chunk-TBZTVGHX.js";
-import {
-  _getEventTarget,
-  _getFocusedElementPierceShadowDom
-} from "./chunk-KQB4LJPA.js";
+  Directionality
+} from "./chunk-VV64KWF3.js";
 import "./chunk-CDSAZYM2.js";
 import "./chunk-Z65OBI5T.js";
 import {
-  CdkScrollableModule,
-  ViewportRuler
-} from "./chunk-2OG2A5JH.js";
-import "./chunk-2O4WY5GE.js";
-import {
-  Directionality
-} from "./chunk-VV64KWF3.js";
-import "./chunk-U5HUDSGL.js";
-import {
   Platform
 } from "./chunk-52CUPXGP.js";
+import "./chunk-U5HUDSGL.js";
 import "./chunk-SW56KKTC.js";
 import "./chunk-WLXPCB7Q.js";
 import {
@@ -126,11 +126,11 @@ import {
   ɵɵtemplate,
   ɵɵviewQuery
 } from "./chunk-I3YILU5Q.js";
+import "./chunk-ISM5WLAM.js";
 import {
   defer,
   merge
 } from "./chunk-IC62NIWK.js";
-import "./chunk-ISM5WLAM.js";
 import {
   Observable,
   Subject,

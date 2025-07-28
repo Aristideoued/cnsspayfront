@@ -4,6 +4,16 @@ import {
   normalizePassiveListenerOptions
 } from "./chunk-WBDYPRQ3.js";
 import {
+  isFakeMousedownFromScreenReader,
+  isFakeTouchstartFromScreenReader
+} from "./chunk-TBZTVGHX.js";
+import {
+  _getEventTarget,
+  _getFocusedElementPierceShadowDom,
+  _getShadowRoot,
+  coerceArray
+} from "./chunk-KQB4LJPA.js";
+import {
   A,
   ALT,
   CONTROL,
@@ -24,16 +34,6 @@ import {
   ZERO,
   hasModifierKey
 } from "./chunk-MMVZ32PN.js";
-import {
-  isFakeMousedownFromScreenReader,
-  isFakeTouchstartFromScreenReader
-} from "./chunk-TBZTVGHX.js";
-import {
-  _getEventTarget,
-  _getFocusedElementPierceShadowDom,
-  _getShadowRoot,
-  coerceArray
-} from "./chunk-KQB4LJPA.js";
 import {
   _CdkPrivateStyleLoader
 } from "./chunk-CDSAZYM2.js";
@@ -2777,4 +2777,4 @@ export {
   removeAriaReferencedId,
   AriaDescriber
 };
-//# sourceMappingURL=chunk-ULKVH2IP.js.map
+//# sourceMappingURL=chunk-O5LM4YQL.js.map

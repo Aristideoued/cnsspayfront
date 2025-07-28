@@ -36,6 +36,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 
 @Component({
     selector: 'app-allemployees',
@@ -149,6 +151,56 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
   addNew() {
     this.openDialog('add');
   }
+
+  sendMail(row:any) {
+    
+    Swal.fire({
+      title: 'Confirmation',
+      text: 'Voulez-vous vraiment envoyer les access par mail ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, envoyer',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.employeesService.sendMail(row.id).subscribe((data:any)=>{
+          console.log(data)
+          if(data.message.includes("Email envoyé avec succès")){
+             Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: data.message // affichera : "Email envoyé avec succès !"
+        });
+
+          }
+          else{
+              Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: "Une erreur s'est produite lors de l'envoi du mail."
+            });
+
+          }
+        });
+      }
+    }); 
+ }
+ /*{
+      next: (response: string) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: response // affichera : "Email envoyé avec succès !"
+        });
+      },
+  error: () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erreur',
+      text: "Une erreur s'est produite lors de l'envoi du mail."
+    });
+  }
+} */
 
   editCall(row: Plateforme) {
     this.openDialog('edit', row);

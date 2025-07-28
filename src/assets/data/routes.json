@@ -80,6 +80,32 @@
         }
       ]
     },
+
+     {
+      "path": "",
+      "title": "MENUITEMS.EMPLOYEES.TEXT",
+      "iconType": "feather",
+      "icon": "package",
+      "class": "menu-toggle",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["Admin"],
+      "submenu": [
+        {
+          "path": "/admin/employees/allEmployees",
+          "title": "MENUITEMS.EMPLOYEES.LIST.ALL-EMPLOYEE",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": ["Admin"],
+          "submenu": []
+        }
+      ]
+    },
     
     
     {

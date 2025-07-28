@@ -1,4 +1,11 @@
 import {
+  CdkScrollable,
+  CdkScrollableModule,
+  ScrollDispatcher,
+  ViewportRuler
+} from "./chunk-KNACLSCK.js";
+import "./chunk-2O4WY5GE.js";
+import {
   _IdGenerator,
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader
@@ -9,26 +16,19 @@ import {
   coerceArray
 } from "./chunk-KQB4LJPA.js";
 import {
+  Directionality
+} from "./chunk-VV64KWF3.js";
+import {
   _CdkPrivateStyleLoader
 } from "./chunk-CDSAZYM2.js";
 import {
   _bindEventWithOptions
 } from "./chunk-Z65OBI5T.js";
 import {
-  CdkScrollable,
-  CdkScrollableModule,
-  ScrollDispatcher,
-  ViewportRuler
-} from "./chunk-2OG2A5JH.js";
-import "./chunk-2O4WY5GE.js";
-import {
-  Directionality
-} from "./chunk-VV64KWF3.js";
-import "./chunk-U5HUDSGL.js";
-import {
   coerceElement,
   coerceNumberProperty
 } from "./chunk-52CUPXGP.js";
+import "./chunk-U5HUDSGL.js";
 import "./chunk-SW56KKTC.js";
 import {
   DOCUMENT
@@ -67,11 +67,11 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule
 } from "./chunk-I3YILU5Q.js";
+import "./chunk-ISM5WLAM.js";
 import {
   animationFrameScheduler,
   merge
 } from "./chunk-IC62NIWK.js";
-import "./chunk-ISM5WLAM.js";
 import {
   BehaviorSubject,
   Observable,

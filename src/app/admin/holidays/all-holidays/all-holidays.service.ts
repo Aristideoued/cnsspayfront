@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map } from 'rxjs/operators';
 import { AllHoliday } from './all-holidays.model';
 import { environment } from 'environments/environment.development';
+import { AuthService } from '@core/service/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class HolidayService {
   >([]);
   token: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,private authService: AuthService) {
             this.token='Basic ' + window.btoa(environment.username + ":" + environment.password);
     
   }
@@ -98,13 +99,13 @@ export class HolidayService {
         );
     }
 
- getAllDomaine(): Observable<AllHoliday[]> {
+ getAllTransaction(): Observable<AllHoliday[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': this.token
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
     });
 
-    return this.httpClient.get<AllHoliday[]>(environment.apiUrl + "all/abonnements", { headers });
+    return this.httpClient.get<AllHoliday[]>(environment.apiUrl + "transaction/liste", { headers });
   }
     addDomaine(abonnement: AllHoliday,dateExpiration:any): Observable<AllHoliday> {
       const headers = new HttpHeaders({

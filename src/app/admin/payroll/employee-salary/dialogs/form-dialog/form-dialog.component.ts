@@ -23,12 +23,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ClientsService } from 'app/admin/clients/all-clients/clients.service';
 import { CommonModule } from '@angular/common';
-import moment from 'moment';
+import moment, { months } from 'moment';
+import { Payout } from '../../payout.model';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 export interface DialogData {
-  id: number;
+  id: string;
   action: string;
-  employeeSalary: EmployeeSalary;
+  employeeSalary: Payout;
+  plateformeNom:string
 }
 
 @Component({
@@ -53,8 +57,8 @@ export class EmployeeSalaryFormComponent {
   action: string;
   dialogTitle: string;
   employeeSalaryForm: UntypedFormGroup;
-  employeeSalary: EmployeeSalary;
-  beneficiaires: any;
+  employeeSalary: Payout;
+  plateformes: any;
 
   constructor(
     public dialogRef: MatDialogRef<EmployeeSalaryFormComponent>,
@@ -68,11 +72,11 @@ export class EmployeeSalaryFormComponent {
     this.employeeSalary =
       this.action === 'edit'
         ? data.employeeSalary
-        : new EmployeeSalary({} as EmployeeSalary);
+        : new Payout({} as Payout);
     this.dialogTitle =
       this.action === 'edit'
-        ? `Monitoring de `
-        : 'Nouveau site à monitorer';
+        ? `Payment sortant pour `
+        : 'Nouveau payment sortant';
     this.employeeSalaryForm = this.createEmployeeSalaryForm();
    // this.subscribeToSalaryChanges();
   }
@@ -84,22 +88,19 @@ export class EmployeeSalaryFormComponent {
     return this.fb.group({
       id: [this.employeeSalary.id],
      
-      url: [this.employeeSalary.url, Validators.required],
+      plateformeId: [this.employeeSalary.plateformeId, Validators.required],
      
-      statut: [this.employeeSalary.statut],
-      client: [this.employeeSalary.client||null, Validators.required],
-      commentaire: [this.employeeSalary.commentaire, Validators.required],
-     
-      dateMonitoring: [this.employeeSalary.dateMonitoring, Validators.required],
+      montant: [this.employeeSalary.montant,Validators.required],
+      
 
     });
   }
-  loadBeneficiaireData() {
-    this.clientService.getAllClients().subscribe({
+  loadPlateformeData() {
+    this.employeeSalaryService.getPlateformesWithTransaction().subscribe({
       next: (data: any) => {
         // Accéder à la propriété 'contenu' de la réponse API
-        this.beneficiaires = data.contenu;
-        console.log(this.beneficiaires)
+        this.plateformes = data.content;
+        console.log(this.plateformes)
       
       },
       error: (err) => console.error(err),
@@ -120,29 +121,9 @@ export class EmployeeSalaryFormComponent {
   }
 ngOnInit(): void {
    
-    this.loadBeneficiaireData()
+    this.loadPlateformeData()
 
-    if(this.action==='edit'){
-    //  const parts = this.employeeSalaryForm.get('datemonitoring')?.value.split('/');
-  const parts=this.data.employeeSalary.dateMonitoring.split('/')
-
-        const formattedDate = new Date(+parts[2], +parts[1] - 1, +parts[0]);
-
-        console.log("formated date==> ",formattedDate)
-         console.log("date==> ",this.data.employeeSalary.dateMonitoring)
-
-
-        //this.employeeSalaryForm.get('dateMonitoring')?.value=formattedDate
-        
-       /* patchValue({
-          dateMonitoring: 
-        });*/
-
-          this.employeeSalaryForm.patchValue({
-            dateMonitoring: formattedDate
-          });
-
-    }
+   
    
   }
   // Calculate net salary
@@ -171,32 +152,10 @@ ngOnInit(): void {
     if (this.employeeSalaryForm.valid) {
       const salaryData = this.employeeSalaryForm.getRawValue();
 
-      console.log("data to update===> ",salaryData)
      
-      let dateFin=''
       
-         
-
-                  if (moment.isMoment(salaryData.dateMonitoring)) {
-                    dateFin = salaryData.dateMonitoring.format('DD/MM/YYYY');
-                  } else if (salaryData.dateMonitoring instanceof Date) {
-                    dateFin = moment(salaryData.dateMonitoring).format('DD/MM/YYYY');
-                  } else if (typeof salaryData.dateMonitoring === 'string') {
-                    dateFin = moment(new Date(salaryData.dateMonitoring)).format('DD/MM/YYYY');
-                  }
-
-
-      const data={
-        dateMonitoring:dateFin,
-        commentaire:salaryData.commentaire,
-        statut:salaryData.statut,
-        id:salaryData.id,
-        url:salaryData.url,
-        beneficiaire_id:salaryData.client
-
-      }
       if (this.action === 'edit') {
-        this.employeeSalaryService.updateMonitoring(data).subscribe({
+        this.employeeSalaryService.updatePayout(salaryData).subscribe({
           next: (response) => {
             this.dialogRef.close(response);
           },
@@ -206,7 +165,7 @@ ngOnInit(): void {
           },
         });
       } else {
-        this.employeeSalaryService.addMonitoring(data).subscribe({
+        this.employeeSalaryService.addPayout(salaryData).subscribe({
           next: (response) => {
             this.dialogRef.close(response);
           },

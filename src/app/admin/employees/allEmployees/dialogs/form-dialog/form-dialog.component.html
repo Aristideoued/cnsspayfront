@@ -211,11 +211,35 @@
         </div>
          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Prenom</mat-label>
-            <input matInput formControlName="prenom" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>face</mat-icon>
-            @if (employeesForm.get('prenom')?.hasError('required')) {
-            <mat-error>Le nom est requis</mat-error>
+            <mat-label>Url</mat-label>
+            <input matInput formControlName="url" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>language</mat-icon>
+            @if (employeesForm.get('url')?.hasError('required')) {
+            <mat-error>L'url est requis</mat-error>
+            }
+          </mat-form-field>
+        </div>
+    
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Url de retour</mat-label>
+            <input matInput formControlName="callbackUrl" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>language</mat-icon>
+            @if (employeesForm.get('callbackUrl')?.hasError('required')) {
+            <mat-error>L'url de retour est requis</mat-error>
+            }
+          </mat-form-field>
+        </div>
+         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Commission agregateur</mat-label>
+            <input matInput formControlName="commissionAgregateur" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>percent</mat-icon>
+            @if (employeesForm.get('commissionAgregateur')?.hasError('required')) {
+            <mat-error>La commission de l'agregateur est requise</mat-error>
             }
           </mat-form-field>
         </div>
@@ -226,30 +250,21 @@
 
            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Département</mat-label>
-                    <mat-select formControlName="departement" required>
+                    <mat-label>Administrateur</mat-label>
+                    <mat-select formControlName="userId" required>
                         <mat-option *ngFor="let dept of dataSource.data" [value]="dept.id">
-                          {{ dept.nom }}
+                          {{ dept.nom }}  {{ dept.prenom }}
                         </mat-option>
               
                     </mat-select>
-                    @if (employeesForm.get('departement')?.hasError('required')) {
+                    @if (employeesForm.get('userId')?.hasError('required')) {
                     <mat-error>
-                      Veuillez sélectionner un département
+                      Veuillez sélectionner un administrateur
                     </mat-error>
                     }
                   </mat-form-field>
                 </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Titre</mat-label>
-            <input matInput formControlName="titre" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>flag</mat-icon>
-            @if (employeesForm.get('titre')?.hasError('required')) {
-            <mat-error>Le titre est requis</mat-error>
-            }
-          </mat-form-field>
-        </div>
+
         <!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Diplôme</mat-label>
@@ -259,28 +274,7 @@
         </div>-->
       </div>
 
-      <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Téléphone</mat-label>
-            <input matInput formControlName="telephone" type="number" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>phone</mat-icon>
-            @if (employeesForm.get('mobile')?.hasError('required')) {
-            <mat-error>Le numéro est requis</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>email</mat-icon>
-            @if (employeesForm.get('email')?.hasError('required') || employeesForm.get('email')?.touched) {
-            <mat-error>Veuillez entrer une adresse email valide</mat-error>
-            }
-          </mat-form-field>
-        </div>
-      </div>
+     
 
       <!--<div class="row">
        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
@@ -329,42 +323,7 @@
         </div>
       </div>-->
 
-      <div class="row">
-       <!-- <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Dernière promotion</mat-label>
-            <input matInput [matDatepicker]="promotionPicker" formControlName="lastPromotionDate">
-            <mat-datepicker-toggle matSuffix [for]="promotionPicker"></mat-datepicker-toggle>
-            <mat-datepicker #promotionPicker></mat-datepicker>
-          </mat-form-field>
-        </div>-->
-         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Genre</mat-label>
-            
-            <mat-select formControlName="genre">
-             <mat-option *ngFor="let sexe of genres" [value]="sexe.libelle">
-                          {{ sexe.libelle }}
-                        </mat-option>
-             
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Statut de l'employé</mat-label>
-            <mat-select formControlName="statut" required>
-               <mat-option *ngFor="let statut of statuts" [value]="statut.id">
-                          {{ statut.libelle }}
-                        </mat-option>
-             
-            </mat-select>
-            @if (employeesForm.get('employeeStatus')?.hasError('required')) {
-            <mat-error>Le statut est requis</mat-error>
-            }
-          </mat-form-field>
-        </div>
-      </div>
+     
 
       <!--<div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
@@ -380,41 +339,7 @@
           </mat-form-field>
         </div>
       </div>-->
-       <div class="row" *ngIf="action!=='edit'">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Mot de passe</mat-label>
-                    <input matInput formControlName="password" type="password" required>
-                    @if (employeesForm.get('password')?.hasError('required')) {
-                    <mat-error>
-                      Le mot de passe est requis
-                    </mat-error>
-                    }
-                    @if (employeesForm.get('password')?.hasError('password')) {
-                    <mat-error>
-                      Veuillez entrer un mot de passe d'au moins 12 caractères
-                    </mat-error>
-                    }
-                  </mat-form-field>
-                </div>
-               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Confirmer le mot de passe</mat-label>
-                    <input matInput formControlName="confirm" type="password" required>
-                    @if (employeesForm.get('confirm')?.hasError('required')) {
-                    <mat-error>
-                      La confirmation du mot de passe est requise
-                    </mat-error>
-                    }
-
-                    <mat-error *ngIf="employeesForm.hasError('mismatch')">
-                       Vos mots de passe sont différents
-                     </mat-error>
-
-                  
-                  </mat-form-field>
-                </div>
-              </div>
+      
 
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

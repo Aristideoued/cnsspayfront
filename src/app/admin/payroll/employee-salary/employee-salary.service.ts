@@ -4,6 +4,9 @@ import { Observable, throwError, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EmployeeSalary } from './employee-salary.model';
 import { environment } from 'environments/environment.development';
+import { AuthService } from '@core/service/auth.service';
+import { Payout } from './payout.model';
+import { Plateforme } from 'app/admin/employees/allEmployees/employees.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +15,13 @@ export class EmployeeSalaryService {
   private readonly API_URL = 'assets/data/employee-salary.json';
   token: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,private authService: AuthService) {
          this.token='Basic ' + window.btoa(environment.username + ":" + environment.password);
     
   }
 
   /** GET: Fetch all employee salaries */
-  getPlateformealaries(): Observable<EmployeeSalary[]> {
+  getPlateformes(): Observable<EmployeeSalary[]> {
     return this.httpClient
       .get<EmployeeSalary[]>(this.API_URL)
       .pipe(catchError(this.handleError));
@@ -47,13 +50,23 @@ export class EmployeeSalaryService {
     return this.httpClient.get<any>(environment.apiUrl + "monitoring");
   }
 
-  getAllMonitoring(): Observable<EmployeeSalary[]> {
+  getAllPayout(): Observable<Payout[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': this.token
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
     });
 
-    return this.httpClient.get<EmployeeSalary[]>(environment.apiUrl + "monitorings", { headers });
+    return this.httpClient.get<Payout[]>(environment.apiUrl + "payout/liste", { headers });
+  }
+
+
+    getPlateformesWithTransaction(): Observable<Plateforme[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<Plateforme[]>(environment.apiUrl + "plateforme/with-transaction", { headers });
   }
        deleteMonitoring(monito: any): Observable<any> {
       const headers = new HttpHeaders({
@@ -82,45 +95,59 @@ export class EmployeeSalaryService {
     }
 
 
-        addMonitoring(monito: any): Observable<any> {
+    addPayout(monito: any): Observable<any> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.token
+        'Authorization': "Bearer "+this.authService.currentUserValue.token
       });
   
-      // Transformer le client en bénéficiaire pour l'API
-     
-      console.log("sent=======> ",monito)
+      const data={montant:monito.montant,plateformeId:monito.plateformeId}
+            console.log("sent=======> ",data)
+
   
       return this.httpClient
-        .post<any>(environment.apiUrl + "addMonitoring", JSON.stringify(monito), { headers })
+        .post<any>(environment.apiUrl + "payout/creer", JSON.stringify(data), { headers })
         .pipe(
           map((response) => {
-            id: response.id 
-          
-           
-          
-      
-         
-            
+            id: response.id   
+          }),
+          catchError(this.handleError)
+        );
+    }
+
+    deletePayout(id: string): Observable<any> {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "+this.authService.currentUserValue.token
+      });
+  
+     
+
+  
+      return this.httpClient
+        .delete<any>(environment.apiUrl + "payout/delete/"+id, { headers })
+        .pipe(
+          map((response) => {
+            id: response.id   
           }),
           catchError(this.handleError)
         );
     }
 
 
-          updateMonitoring(monito: any): Observable<any> {
+    updatePayout(monito: any): Observable<any> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.token
+       'Authorization': "Bearer "+this.authService.currentUserValue.token
       });
   
       // Transformer le client en bénéficiaire pour l'API
-     
-      console.log("sent=======> ",monito)
+           const data={montant:monito.montant,plateformeId:monito.plateformeId}
+
+      console.log("sent=======> ",data)
   
       return this.httpClient
-        .post<any>(environment.apiUrl + "update/monitoring", JSON.stringify(monito), { headers })
+        .put<any>(environment.apiUrl + "payout/update/"+monito.id, JSON.stringify(data), { headers })
         .pipe(
           map((response) => {
             id: response.id 

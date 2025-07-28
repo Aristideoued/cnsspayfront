@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Tous les Employés'" [items]="['Employés']" [active_item]="'Tous les Employés'">
+      <app-breadcrumb [title]="'Toutes les plateformes'" [items]="['Plateforme']" [active_item]="'Toutes les plateformes'">
       </app-breadcrumb>
     </div>
     <div class="row">
@@ -12,7 +12,7 @@
             <div class="left">
               <ul class="header-buttons-left ms-0">
                 <li class="tbl-title">
-                  <h2>Employés</h2>
+                  <h2>Plateformes</h2>
                 </li>
                 <li class="tbl-search-box">
                   <label for="search-input"><i class="material-icons search-icon">rechercher</i></label>
@@ -141,7 +141,7 @@
                   </mat-cell>
                 </ng-container>
                 } @else {
-                @if (column.type === 'url') {
+                @if (column.type === 'statut') {
                 <!-- Statut avec badges colorés -->
                 <ng-container [matColumnDef]="column.def">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -180,8 +180,23 @@
                     </div>
                   </mat-cell>
                 </ng-container>
-                } @else {
-                <!-- Colonnes par défaut -->
+                } @else { @if(column.type === 'url'){
+                  <ng-container [matColumnDef]="column.def">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span class="truncate-text">{{ column.label }}</span>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                    [matTooltip]="row[column.def]">
+                    <span class="mobile-label">{{ column.label }}:</span> 
+                    <mat-icon class="tbl-icon material-icons-outlined col-blue">language</mat-icon>
+                    <span class="truncate-text">{{ row[column.def] }}</span>
+                  </mat-cell>
+                </ng-container>
+
+
+                }
+                @else {
+                    <!-- Colonnes par défaut -->
                 <ng-container [matColumnDef]="column.def">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>
                     <span class="truncate-text">{{ column.def }}</span>
@@ -191,6 +206,9 @@
                     <span class="truncate-text">{{ row[column.def] }}</span>
                   </mat-cell>
                 </ng-container>
+
+                }
+              
                 }
                 }
                 }

@@ -69,8 +69,8 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
         { def: 'token', label: 'Token', type: 'text', visible: false },
 
     { def: 'nom', label: 'Nom', type: 'text', visible: true },
-    { def: 'url', label: 'Url', type: 'text', visible: true },
-        { def: 'callbackUrl', label: 'Url de retour', type: 'text', visible: true },
+    { def: 'url', label: 'Url', type: 'url', visible: true },
+        { def: 'callbackUrl', label: 'Url de retour', type: 'url', visible: true },
 
      { def: 'commissionAgregateur', label: 'CommissionAgregateur', type: 'name', visible: true },
      { def: 'userNomPrenom', label: 'Administrateur', type: 'text', visible: true },

@@ -28,6 +28,16 @@ export class AdminService {
     return this.httpClient.get<Admin[]>(environment.apiUrl + "user/liste", { headers });
   }
 
+   getAllUsers(): Observable<Admin[]> {
+    console.log("Bearer "+this.authService.currentUserValue.token)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<Admin[]>(environment.apiUrl + "user/users", { headers });
+  }
+
     getRoles(): Observable<any[]> {
     console.log("Bearer "+this.authService.currentUserValue.token)
     const headers = new HttpHeaders({

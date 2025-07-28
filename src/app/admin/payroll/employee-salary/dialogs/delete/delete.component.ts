@@ -11,10 +11,9 @@ import { EmployeeSalaryService } from '../../employee-salary.service';
 import { MatButtonModule } from '@angular/material/button';
 
 export interface DialogData {
-  id: number;
-  url: string;
-  Structure: string;
-  empID: string;
+  id: string;
+  plateformeNom: string;
+ 
 }
 
 @Component({
@@ -36,7 +35,7 @@ export class EmployeeSalaryDeleteComponent {
     public employeeSalaryService: EmployeeSalaryService
   ) {}
   confirmDelete(): void {
-    this.employeeSalaryService.deleteMonitoring(this.data.id).subscribe({
+    this.employeeSalaryService.deletePayout(this.data.id).subscribe({
       next: (response) => {
         // console.log('Delete Response:', response);
         this.dialogRef.close(response); // Close with the response data

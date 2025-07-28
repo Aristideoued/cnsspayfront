@@ -37,6 +37,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Payout } from './payout.model';
 
 @Component({
   selector: 'app-employee-salary',
@@ -65,19 +66,18 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
   columnDefinitions = [
     { def: 'select', label: 'Checkbox', type: 'check', visible: true },
     { def: 'id', label: ' ID', type: 'text', visible: false },
-    { def: 'url', label: 'Url du site', type: 'text', visible: true },
-    { def: 'statut', label: 'Statut', type: 'statut', visible: true },
-    { def: 'commentaire', label: 'Commentaire', type: 'commentaire', visible: true },
+    { def: 'plateformeNom', label: 'Plateforme', type: 'text', visible: true },
+    { def: 'montant', label: 'Montant', type: 'text', visible: true },
+    { def: 'date', label: 'Date', type: 'text', visible: true },
 
-    { def: 'dateMonitoring', label: 'Date monitoring', type: 'text', visible: true },
-    { def: 'beneficiaire', label: 'Beneficiaire', type: 'text', visible: true },
-    { def: 'Structure', label: 'Structure', type: 'text', visible: true },
+    { def: 'heure', label: 'Heure', type: 'text', visible: true },
+    { def: 'plateformeId', label: 'Plateforme id', type: 'text', visible: false },
    
     { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
   ];
 
-  dataSource = new MatTableDataSource<EmployeeSalary>([]);
-  selection = new SelectionModel<EmployeeSalary>(true, []);
+  dataSource = new MatTableDataSource<Payout>([]);
+  selection = new SelectionModel<Payout>(true, []);
   contextMenuPosition = { x: '0px', y: '0px' };
   isLoading = true;
   private destroy$ = new Subject<void>();
@@ -97,11 +97,9 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.monitoring()
-
-    setTimeout(() => {
+    
        this.loadData();
-    }, 90000);
+   
    
   }
 
@@ -124,6 +122,22 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
   }
 
 
+  formatCellValue(row: any, def: string): string {
+  if (def === 'date' && row['date']) {
+    return new Date(row['date']).toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+
+  if (def === 'heure' && row['heure']) {
+    return row['heure'].substring(0, 8);
+  }
+
+  return row[def];
+}
+
 
     monitoring() {
     this.employeeSalaryService.startMonitoring().subscribe({
@@ -139,15 +153,15 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
-    this.employeeSalaryService.getAllMonitoring().subscribe({
+    this.employeeSalaryService.getAllPayout().subscribe({
       next: (data:any) => {
-        this.dataSource.data = data.contenu;
+        this.dataSource.data = data.content;
 
         console.log(this.dataSource.data)
         this.isLoading = false;
         this.refreshTable();
         this.dataSource.filterPredicate = (
-          data: EmployeeSalary,
+          data: Payout,
           filter: string
         ) =>
           Object.values(data).some((value) =>
@@ -212,7 +226,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateRecord(updatedRecord: EmployeeSalary) {
+  private updateRecord(updatedRecord: Payout) {
     const index = this.dataSource.data.findIndex(
       (record) => record.id === updatedRecord.id
     );
@@ -222,7 +236,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteItem(row: EmployeeSalary) {
+  deleteItem(row: Payout) {
     const dialogRef = this.dialog.open(EmployeeSalaryDeleteComponent, {
       data: row,
     });
@@ -258,10 +272,10 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
 
   exportExcel() {
     const exportData = this.dataSource.filteredData.map((x) => ({
-      'Site': x.url,
-      Statut: x.statut,
-      Commentaire: x.commentaire,
-      Date: x.dateMonitoring,
+      'Plateforme': x.plateformeNom,
+      Date: x.date,
+      Heure: x.heure,
+      Montant: x.montant,
     
       
     }));
@@ -292,7 +306,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
       'center'
     );
   }
-  onContextMenu(event: MouseEvent, item: EmployeeSalary) {
+  onContextMenu(event: MouseEvent, item: Payout) {
     event.preventDefault();
     this.contextMenuPosition = {
       x: `${event.clientX}px`,

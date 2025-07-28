@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { DepartmentService } from 'app/admin/departments/all-departments/department.service';
 import { Department } from 'app/admin/departments/all-departments/department.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { AdminService } from 'app/admin/admin/all-admin/admin.service';
+import { Admin } from 'app/admin/admin/all-admin/admin.model';
 
 export interface DialogData {
   id: number;
@@ -59,7 +61,7 @@ export class AllEmployeesFormComponent {
   genres:any[]=[{"id":1,"libelle":"Femme"},{"id":2,"libelle":"Homme"}]
 
    statuts:any[]=[{"id":1,"libelle":"Actif"},{"id":0,"libelle":"Inactif"}]
-  dataSource = new MatTableDataSource<Department>([]);
+  dataSource = new MatTableDataSource<Admin>([]);
   deptTrouve: Department | undefined;
 
 
@@ -68,14 +70,16 @@ export class AllEmployeesFormComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public employeesService: EmployeesService,
        public departmentService: DepartmentService,
+           public adminService: AdminService,
+       
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults based on action type
     this.action = data.action;
     this.dialogTitle =
       this.action === 'edit'
-        ? `Edit Employee: ${data.employees.nom}`
-        : 'Nouveau Employee';
+        ? `Edit Plateforme: ${data.employees.nom}`
+        : 'Nouvelle Plateforme';
     this.employees =
       this.action === 'edit' ? data.employees : new Plateforme({} as Plateforme);
     this.employeesForm = this.createEmployeeForm();
@@ -83,7 +87,7 @@ export class AllEmployeesFormComponent {
 
    ngOnInit() {
    
-    this.loadDepartement();
+    this.loadUsers();
   }
 
   // Create form group for employee details
@@ -93,57 +97,36 @@ export class AllEmployeesFormComponent {
     
     return this.fb.group({
       id: [this.employees.id],
-      img: [this.employees.nom],
-      nom: [this.employees.nom, [Validators.required]],
-      prenom: [this.employees.nom, [Validators.required]],
-      email: [this.employees.id, [Validators.required, Validators.email]],
+      nom: [this.employees.nom],
+      url: [this.employees.url, [Validators.required]],
+      callbackUrl: [this.employees.callbackUrl, [Validators.required]],
+      userId: [this.employees.userId, [Validators.required]],
      /* birthDate: [
         formatDate(this.employees.birthDate, 'yyyy-MM-dd', 'en'),
         [Validators.required],
       ],*/
      // role: [this.employees.role, [Validators.required]],
-      telephone: [this.employees.userTelephone, [Validators.required]],
+      commissionAgregateur: [this.employees.commissionAgregateur, [Validators.required]],
 
      
-      departement: [this.employees.userMail|| null, [Validators.required]],
+      token: [this.employees.token|| '']
     
-      titre: [this.employees.userId,[Validators.required]],
-      statut: [this.employees.nom,[Validators.required]],
-      genre: [this.employees.token,[Validators.required]],
-      password: [
-        '',
-        [Validators.required, Validators.minLength(12)],
-      ],
-      confirm: [
-        '',
-        [Validators.required, Validators.minLength(12)],
-      ]
-      /*address: [this.employees.address],
-      joiningDate: [this.employees.joiningDate],
-      salary: [this.employees.salary, [Validators.required]],
-      lastPromotionDate: [this.employees.lastPromotionDate],
-      employeeStatus: [this.employees.employeeStatus],
-      workLocation: [this.employees.workLocation],*/
-    },{ validator: this.passwordsMatchValidator });
+    });
   }
-  passwordsMatchValidator(group: UntypedFormGroup) {
-  const password = group.get('password')?.value;
-  const confirm = group.get('confirm')?.value;
-  return password === confirm ? null : { mismatch: true };
-}
 
-  loadDepartement() {
-      this.departmentService.getAllDepartments().subscribe({
+
+  loadUsers() {
+      this.adminService.getAllUsers().subscribe({
         next: (data:any) => {
-          this.dataSource.data = data.contenu;
-         // console.log("Les departements===>",this.dataSource.data)
+          this.dataSource.data = data.content;
+         console.log("Les users===>",this.dataSource.data)
 
           //this.deptTrouve = this.dataSource.data.find(d => d.nom === this.employees.departement);
 
           //this.isLoading = false;
         
-          this.dataSource.filterPredicate = (data: Department, filter: string) =>
-            Object.values(data).some((value) =>
+          this.dataSource.filterPredicate = (data: any, filter: string) =>
+            Object.values(data).some((value:any) =>
               value.toString().toLowerCase().includes(filter)
             );
         },
@@ -202,42 +185,10 @@ export class AllEmployeesFormComponent {
   // Submit form data
   submit() {
 
-
-
-    if(this.action!=='edit' ){
-     /* if( this.employeesForm.valid){
-         const employeeData = this.employeesForm.getRawValue();
-        this.employeesService.addEmployee(employeeData).subscribe({
-          next: (response) => {
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            console.error('Add Error:', error);
-            // Optionally show an error message to the user
-          },
-        });
-
-      }*/
-    
-
-    }
-    else{
-       /*  const employeeData = this.employeesForm.getRawValue();
-
-             this.employeesService.updateEmployee(employeeData).subscribe({
-          next: (response) => {
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            console.error('Update Error:', error);
-            // Optionally show an error message to the user
-          },
-        });*/
-    }
-    /*if (this.employeesForm.valid) {
+    if (this.employeesForm.valid) {
       const employeeData = this.employeesForm.getRawValue();
       if (this.action === 'edit') {
-        this.employeesService.updateEmployee(employeeData).subscribe({
+        this.employeesService.updatePlateforme(employeeData).subscribe({
           next: (response) => {
             this.dialogRef.close(response);
           },
@@ -247,7 +198,7 @@ export class AllEmployeesFormComponent {
           },
         });
       } else {
-        this.employeesService.addEmployee(employeeData).subscribe({
+        this.employeesService.addPlateforme(employeeData).subscribe({
           next: (response) => {
             this.dialogRef.close(response);
           },
@@ -257,7 +208,7 @@ export class AllEmployeesFormComponent {
           },
         });
       }
-    }*/
+    }
   }
 
   // Close dialog without action

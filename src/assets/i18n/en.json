@@ -7,7 +7,7 @@
       "TEXT": "Tableau de bord",
       "LIST": {
         "DASHBOARD1": "Tableau de bord 1",
-        "DASHBOARD2": "Tableau de bord 2"
+        "DASHBOARD2": "Tableau de bord"
       }
     },
     "PROJECTS": {
@@ -20,9 +20,9 @@
       }
     },
     "EMPLOYEES": {
-      "TEXT": "Employés",
+      "TEXT": "Plateformes",
       "LIST": {
-        "ALL-EMPLOYEE": "Tous les employés",
+        "ALL-EMPLOYEE": "Toutes les plateformes",
         "ADD-EMPLOYEE": "Ajouter un employé",
         "EDIT-EMPLOYEE": "Modifier un employé",
         "EMPLOYEE-SHIFT": "Poste de l'employé",
@@ -30,11 +30,11 @@
       }
     },
      "ADMIN": {
-      "TEXT": "Admin",
+      "TEXT": "Utilisateurs",
       "LIST": {
-        "ALL-ADMIN": "Tous les admin",
-        "ADD-ADMIN": "Ajouter un admin",
-        "EDIT-ADMIN": "Modifier un admin"
+        "ALL-ADMIN": "Tous les utilisateurs",
+        "ADD-ADMIN": "Ajouter un utilisateur",
+        "EDIT-ADMIN": "Modifier un utilisateur"
 
       }
     },
@@ -55,9 +55,9 @@
       }
     },
     "PAYROLL": {
-      "TEXT": "Monitoring",
+      "TEXT": "Paiements sortants",
       "LIST": {
-        "EMPLOYEE_SALARY": "Etat des sites",
+        "EMPLOYEE_SALARY": "Tous les paiements sortants",
         "PAYSLIP": ""
       }
     },
@@ -116,9 +116,9 @@
       }
     },
     "HOLIDAYS": {
-      "TEXT": "Domaines",
+      "TEXT": "Transactions",
       "LIST": {
-        "ALL-HOLIDAYS": "Domaines",
+        "ALL-HOLIDAYS": "Toutes les transactions",
         "ADD-HOLIDAY": "Ajouter un jour férié",
         "EDIT-HOLIDAY": "Modifier un jour férié"
       }

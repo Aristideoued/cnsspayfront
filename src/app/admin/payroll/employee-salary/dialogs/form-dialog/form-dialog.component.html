@@ -5,7 +5,7 @@
         <img [src]='employeeSalary.img' alt="avatar">
       </label>-->
       <div class="modalTitle">
-        {{dialogTitle}} <p style="color: blue;">{{employeeSalary.url}}</p>
+        {{dialogTitle}} <p style="color: blue;">{{employeeSalary.plateformeNom}}</p>
       </div>
     </div>
     <button mat-icon-button mat-dialog-close class="modal-close-button" aria-label="Close dialog" type="button">
@@ -14,101 +14,39 @@
   </div>
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="employeeSalaryForm" (ngSubmit)="submit()">
+   
       <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Url du site</mat-label>
-            <input matInput formControlName="url" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>language</mat-icon>
-            @if (employeeSalaryForm.get('url')?.hasError('required')) {
-            <mat-error>
-            L'url est obligatoire
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Statut</mat-label>
-            <mat-select formControlName="statut" required>
-              <mat-option [value]="'En ligne et Ok'">Fonctionnel</mat-option>
-              <mat-option [value]="'Non fonctionnel'">Non fonctionnel</mat-option>
-               <mat-option [value]="'Non fonctionnel'">Hors ligne</mat-option>
-              
-            </mat-select>
-            @if (employeeSalaryForm.get('statut')?.hasError('required')) {
-            <mat-error>
-              Le statut est obligatoire
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
-        <!--<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Employee ID</mat-label>
-            <input matInput formControlName="empID" required>
-            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>tag</mat-icon>
-            @if (employeeSalaryForm.get('empID')?.hasError('required')) {
-            <mat-error>
-              Employee ID is required
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>-->
-      </div>
-      <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-        
-                
-          <mat-form-field class="example-full-width mb-3" appearance="outline">
-            <mat-label>Date monitoring</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="dateMonitoring" required>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-                                <!--<input matInput [matDatepicker]="picker" formControlName="startDate" required>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>-->
-            @if (employeeSalaryForm.get('dateMonitoring')?.hasError('required')) {
-            <mat-error>
-              Veuillez selectionner une date
-            </mat-error>
-            }
-          </mat-form-field>
-        </div>
+       
          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Client</mat-label>
-            <mat-select formControlName="client" required>
-             <mat-option *ngFor="let benef of beneficiaires" [value]="benef.id">
-                          {{ benef.nom }}  {{ benef.prenom }} de  {{ benef.structure }}
+            <mat-label>Plateforme</mat-label>
+            <mat-select formControlName="plateformeId" required>
+             <mat-option *ngFor="let benef of plateformes" [value]="benef.id">
+                          {{ benef.nom }} 
                         </mat-option>
             </mat-select>
-            @if (employeeSalaryForm.get('client')?.hasError('required')) {
+            @if (employeeSalaryForm.get('plateformeId')?.hasError('required')) {
             <mat-error>
-            Le client est obligatoire
+            La plateforme est obligatoire
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Le montant</mat-label>
+            <input matInput formControlName="montant" required>
+            <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>devise</mat-icon>
+            @if (employeeSalaryForm.get('url')?.hasError('required')) {
+            <mat-error>
+            Le montant est obligatoire
             </mat-error>
             }
           </mat-form-field>
         </div>
       </div>
       
-      <div class="row">
-        
-       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>Commentaire</mat-label>
-    <textarea matInput formControlName="commentaire" rows="4" required></textarea>
-    <mat-icon class="material-icons-outlined color-icon p-3" matSuffix>comment</mat-icon>
-    @if (employeeSalaryForm.get('commentaire')?.hasError('required') || employeeSalaryForm.get('commentaire')?.touched) {
-      <mat-error>
-        Le champ commentaire est requis
-      </mat-error>
-    }
-  </mat-form-field>
-</div>
-
-      </div>
+      
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row">

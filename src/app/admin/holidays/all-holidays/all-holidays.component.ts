@@ -22,7 +22,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { rowsAnimation } from '@shared';
 import { Direction } from '@angular/cdk/bidi';
 import { TableExportUtil } from '@shared';
-import { formatDate, NgClass, DatePipe } from '@angular/common';
+import { formatDate, NgClass, DatePipe, CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRippleModule } from '@angular/material/core';
 import { FeatherIconsComponent } from '@shared/components/feather-icons/feather-icons.component';
@@ -36,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { AllHolidaysFormComponent } from './dialog/form-dialog/form-dialog.component';
 import { AllHolidaysDeleteComponent } from './dialog/delete/delete.component';
+import { Transaction } from './transaction.model';
 
 @Component({
     selector: 'app-allholiday',
@@ -51,6 +52,7 @@ import { AllHolidaysDeleteComponent } from './dialog/delete/delete.component';
         MatTableModule,
         MatSortModule,
         NgClass,
+        CommonModule,
         MatCheckboxModule,
         FeatherIconsComponent,
         MatRippleModule,
@@ -64,23 +66,19 @@ import { AllHolidaysDeleteComponent } from './dialog/delete/delete.component';
 export class AllHolidayComponent implements OnInit, OnDestroy {
   columnDefinitions = [
     { def: 'select', label: 'Checkbox', type: 'check', visible: true },
-    { label: 'ID', def: 'id', type: 'number', visible: false },
-    { label: 'Service', def: 'service', type: 'text', visible: true },
-    { label: 'Formule', def: 'hebergeur', type: 'text', visible: true },
-    { label: 'Date Expiration', def: 'dateExpiration', type: 'text', visible: true },
-    { label: 'Montant', def: 'montant', type: 'text', visible: true },
-    { label: 'Devise', def: 'devise', type: 'text', visible: true },
-    { label: 'Forfait', def: 'forfait', type: 'text', visible: true },
-    { label: 'Statut', def: 'statut', type: 'text', visible: true },
-     { label: 'Interpretation', def: 'nbjour', type: 'text', visible: true },
-   
-  
-    { label: 'Description', def: 'description', type: 'text', visible: false },
-    { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
+    { label: 'ID', def: 'id', type: 'string', visible: false },
+    { label: 'Plateforme', def: 'plateforme', type: 'text', visible: true },
+    { label: 'Montant', def: 'montant', type: 'number', visible: true },
+    { label: 'Motif', def: 'motif', type: 'text', visible: true },
+    { label: 'Numéro', def: 'numero', type: 'text', visible: true },
+    { label: 'Api', def: 'api', type: 'text', visible: true },
+    { label: 'Date', def: 'date', type: 'text', visible: true },
+    { label: 'Heure', def: 'heure', type: 'text', visible: true },
+  // { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
   ];
 
-  dataSource = new MatTableDataSource<AllHoliday>([]);
-  selection = new SelectionModel<AllHoliday>(true, []);
+  dataSource = new MatTableDataSource<Transaction>([]);
+  selection = new SelectionModel<Transaction>(true, []);
   contextMenuPosition = { x: '0px', y: '0px' };
   isLoading = true;
   private destroy$ = new Subject<void>();
@@ -115,33 +113,45 @@ export class AllHolidayComponent implements OnInit, OnDestroy {
       .filter((cd) => cd.visible)
       .map((cd) => cd.def);
   }
-
-  loadData2(){
-      this.holidayService.getAllHolidays().subscribe({
-      next: (data:any) => {
-        this.dataSource.data = data;
-        this.isLoading = false;
-        this.refreshTable();
-        console.log(this.dataSource.data)
-        this.dataSource.filterPredicate = (data: AllHoliday, filter: string) =>
-          Object.values(data).some((value) =>
-            value.toString().toLowerCase().includes(filter)
-          );
-      },
-      error: (err) => console.error(err),
+formatCellValue(row: any, def: string): string {
+  if (def === 'date' && row['date']) {
+    return new Date(row['date']).toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
     });
   }
+
+  if (def === 'heure' && row['heure']) {
+    return row['heure'].substring(0, 8);
+  }
+
+  return row[def];
+}
+
+
   loadData() {
-    this.holidayService.getAllDomaine().subscribe({
+    this.holidayService.getAllTransaction().subscribe({
       next: (data:any) => {
-        this.dataSource.data = data.contenu;
+        this.dataSource.data = data.content;
         this.isLoading = false;
         this.refreshTable();
         console.log(this.dataSource.data)
-        this.dataSource.filterPredicate = (data: AllHoliday, filter: string) =>
-          Object.values(data).some((value) =>
-            value.toString().toLowerCase().includes(filter)
-          );
+     this.dataSource.filterPredicate = (data: Transaction, filter: string): boolean => {
+      const searchText = filter.toLowerCase();
+      return (
+        (data.plateforme?.toLowerCase().includes(searchText) ?? false) ||
+        (data.motif?.toLowerCase().includes(searchText) ?? false) ||
+        (data.montant?.toString().toLowerCase().includes(searchText) ?? false) ||
+        (data.api?.toLowerCase().includes(searchText) ?? false) ||
+        (data.heure?.toLowerCase().includes(searchText) ?? false) ||
+        (data.numero?.toLowerCase().includes(searchText) ?? false) ||
+        (data.date ? new Date(data.date).toLocaleDateString('fr-FR').includes(searchText) : false)
+      );
+    };
+
+
+
       },
       error: (err) => console.error(err),
     });
@@ -201,7 +211,7 @@ export class AllHolidayComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateRecord(updatedRecord: AllHoliday) {
+  private updateRecord(updatedRecord: Transaction) {
     const index = this.dataSource.data.findIndex(
       (record) => record.id === updatedRecord.id
     );
@@ -211,7 +221,7 @@ export class AllHolidayComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteItem(row: AllHoliday) {
+  deleteItem(row: Transaction) {
     const dialogRef = this.dialog.open(AllHolidaysDeleteComponent, {
       data: row,
     });
@@ -248,15 +258,15 @@ export class AllHolidayComponent implements OnInit, OnDestroy {
   exportExcel() {
     const exportData = this.dataSource.filteredData.map((x) => ({
       ID: x.id,
-       'Hebergeur': x.hebergeur,
-      'Service': x.service,
-      Forfait: x.forfait,
-        Statut: x.statut,
-          Interpretation: x.nbjour,
-      Description: x.description,
-      DateExpiration: formatDate(new Date(x.dateExpiration), 'dd-MM-yyyy', 'fr') || '',
-      Devise: x.devise,
-      'Montant': x.montant
+       'Plateforme': x.plateforme,
+      'Montant': x.montant,
+      Api: x.api,
+        Motif: x.motif,
+         Numero: x.numero,
+         
+      Heure: x.heure,
+      Date: formatDate(new Date(x.date), 'dd-MM-yyyy', 'fr') || ''
+      
      
     }));
 

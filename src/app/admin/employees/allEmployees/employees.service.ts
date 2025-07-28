@@ -49,112 +49,99 @@ export class EmployeesService {
 
 
 
-      /*updateEmployee(employee: Plateforme): Observable<Plateforme> {
+      updatePlateforme(employee: Plateforme): Observable<Plateforme> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.token
+        'Authorization': "Bearer "+this.authService.currentUserValue.token
       });
   
-      const userData = {
-        id:employee.id,
-        email:employee.email,
-        genre:employee.genre,
-        departement_id:employee.departement,
-        titre: employee.titre,
-        statut:employee.statut,
-        nom: employee.nom,
-        prenom: employee.prenom,
-        role_id: 2,
-        phone: employee.telephone.toString()
+      const plateformeData = {
+       
+        nom:employee.nom,
+        token:employee.token,
+        userId:employee.userId,
+        url: employee.url,
+        callbackUrl:employee.callbackUrl,
+        commissionAgregateur: employee.commissionAgregateur
+        
        
       };
 
-      console.log("Le user envoyé============> ",userData)
+      console.log("Plateforme envoyé============> ",plateformeData)
   
       return this.httpClient
-        .post<any>(environment.apiUrl + "update/user",JSON.stringify(userData) , { headers })
+        .put<any>(environment.apiUrl + "plateforme/update/"+employee.id,JSON.stringify(plateformeData) , { headers })
         .pipe(
-          map((response) => new Employees({
+          map((response) => new Plateforme({
             id: response.id || employee.id,
-            titre: response.username || employee.titre,
-            password: response.password || employee.password,
             nom: response.nom || employee.nom,
-            genre: response.genre || employee.genre,
-            prenom: response.prenom || employee.prenom,
+            url: response.url || employee.url,
+            callbackUrl: response.callbackUrl || employee.callbackUrl,
+            commissionAgregateur: response.commissionAgregateur || employee.commissionAgregateur,
+            token: response.token || employee.token,
            
-            telephone: response.phone || employee.telephone
           })),
           catchError(this.handleError)
         );
     }
 
 
-    addEmployee(employee: Employees): Observable<Employees> {
+    addPlateforme(employee: Plateforme): Observable<Plateforme> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.token
+        'Authorization': "Bearer "+this.authService.currentUserValue.token
       });
   
-      const userData = {
-        email:employee.email,
-        genre:employee.genre,
-        departement_id:employee.departement,
-        titre: employee.titre,
-        password: employee.password,
-        nom: employee.nom,
-        prenom: employee.prenom,
-        role_id: 2,
-        phone: employee.telephone.toString()
+       const plateformeData = {
+       
+        nom:employee.nom,
+        token:employee.token,
+        userId:employee.userId,
+        url: employee.url,
+        callbackUrl:employee.callbackUrl,
+        commissionAgregateur: employee.commissionAgregateur
+        
        
       };
 
-      console.log("Le user envoyé============> ",userData)
+      console.log("Plateforme envoyé============> ",plateformeData)
   
       return this.httpClient
-        .post<any>(environment.apiUrl + "userRegister",JSON.stringify(userData) , { headers })
+        .post<any>(environment.apiUrl + "plateforme/creer",JSON.stringify(plateformeData) , { headers })
         .pipe(
-          map((response) => new Employees({
+          map((response) => new Plateforme({
             id: response.id || employee.id,
-            titre: response.username || employee.titre,
-            password: response.password || employee.password,
             nom: response.nom || employee.nom,
-            genre: response.genre || employee.genre,
-            prenom: response.prenom || employee.prenom,
+            url: response.url || employee.url,
+            callbackUrl: response.callbackUrl || employee.callbackUrl,
+            commissionAgregateur: response.commissionAgregateur || employee.commissionAgregateur,
+            token: response.token || employee.token,
            
-           // role: response.role || admin.role,
-            telephone: response.phone || employee.telephone
           })),
           catchError(this.handleError)
         );
     }
 
 
-       deleteEmployee(id: number): Observable<Employees> {
+       deletePlateforme(id: string): Observable<Plateforme> {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.token
+        'Authorization': "Bearer "+this.authService.currentUserValue.token
       });
   
-      const userData = {
-        id:id,
-      
-       
-      };
-
-      console.log("Le user envoyé============> ",userData)
-  
+   
       return this.httpClient
-        .post<any>(environment.apiUrl + "delete/user",JSON.stringify(userData) , { headers })
+        .delete<any>(environment.apiUrl + "plateforme/delete/"+id , { headers })
         .pipe(
-          map((response) => new Employees({
-            id: response.id || id
+          map((response) => new Plateforme({
+            id:  id
            
            
           
           })),
           catchError(this.handleError)
         );
-    }*/
+    }
 
   /*addEmployee2(employee: Employees): Observable<Employees> {
     return this.httpClient.post<Employees>(this.API_URL, employee).pipe(

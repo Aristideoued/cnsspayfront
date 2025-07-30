@@ -44,6 +44,14 @@ export class EmployeesService {
 
     return this.httpClient.get<Plateforme[]>(environment.apiUrl+"plateforme/liste", { headers });
   }
+     getStat(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<any>(environment.apiUrl+"stats/counts", { headers });
+  }
 
     getPlateformeByUserId(): Observable<Plateforme[]> {
     const headers = new HttpHeaders({

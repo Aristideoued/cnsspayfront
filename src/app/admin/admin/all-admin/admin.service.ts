@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Admin } from './admin.model';
 import { environment } from 'environments/environment.development';
 import { AuthService } from '@core/service/auth.service';
+import { Api } from 'app/admin/api/api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,28 @@ export class AdminService {
     return this.httpClient.get<Admin[]>(environment.apiUrl + "user/liste", { headers });
   }
 
+    getAllApi(): Observable<Api[]> {
+    console.log("Bearer "+this.authService.currentUserValue.token)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<Api[]>(environment.apiUrl + "api/liste", { headers });
+  }
+
+    envoyerTransaction(data: any) {
+    const headers = new HttpHeaders({
+      'Authorization': "Bearer "+this.authService.currentUserValue.token,
+      'Content-Type': 'application/json',
+      'Accept': 'text/html' // important si le backend retourne du HTML
+    });
+
+    return this.httpClient.post(environment.apiUrl+'payment', data, {
+      headers,
+      responseType: 'blob' // car on veut du contenu HTML qu'on peut ouvrir
+    });
+  }
    getAllUsers(): Observable<Admin[]> {
     console.log("Bearer "+this.authService.currentUserValue.token)
     const headers = new HttpHeaders({
@@ -81,6 +104,80 @@ export class AdminService {
       );
   }
 
+
+    addApi(api: Api): Observable<Api> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+     'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    const adminData = {
+      name: api.name,
+      commission: api.commission,
+      description: api.description,
+      logoUrl: "",
+     
+    };
+    console.log(adminData)
+
+    return this.httpClient
+      .post<any>(environment.apiUrl + "api/creer",JSON.stringify(adminData) , { headers })
+      .pipe(
+        map((response) => new Api({
+          id: response.id || api.id,
+          name: response.name || api.name,
+          logoUrl: response.logoUrl || api.logoUrl,
+          description: response.description || api.description,
+          commission: response.commission || api.commission
+        })),
+        catchError(this.handleError)
+      );
+  }
+    updateApi(api: Api): Observable<Api> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+     'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    const adminData = {
+      id:api.id,
+      name: api.name,
+      commission: api.commission,
+      description: api.description,
+      logoUrl: api.logoUrl,
+     
+    };
+    console.log(adminData)
+
+    return this.httpClient
+      .put<any>(environment.apiUrl + "api/update/"+api.id,JSON.stringify(adminData) , { headers })
+      .pipe(
+        map((response) => new Api({
+          id: response.id || api.id,
+          name: response.name || api.name,
+          logoUrl: response.logoUrl || api.logoUrl,
+          description: response.description || api.description,
+          commission: response.commission || api.commission
+        })),
+        catchError(this.handleError)
+      );
+  }
+
+
+   deleteApi(id: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+   
+    return this.httpClient
+      .delete<void>(`${environment.apiUrl}api/delete/`+id)
+      .pipe(
+        map(() => id),
+        catchError(this.handleError)
+      );
+  }
   /** PUT: Mettre à jour un administrateur existant */
   updateAdmin(admin: Admin): Observable<Admin> {
     const headers = new HttpHeaders({

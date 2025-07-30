@@ -6,26 +6,27 @@
     </div>
     <div class="row">
       <div class="col-xl-3 col-lg-6">
-        <app-info-box1 [cardClass]="'l-bg-green-dark'" [iconClass]="'fa fa-briefcase'" [title]="'New Projects'"
-          [value]="102" [progressValue]="40" [progressClass]="'orange-progress'" [percentageChange]="10">
+        <app-info-box1 [cardClass]="'l-bg-green-dark'" [iconClass]="'fa fa-briefcase'" [title]="'Paiements'"
+          [value]=paiements  [progressClass]="'orange-progress'" >
         </app-info-box1>
       </div>
 
       <div class="col-xl-3 col-lg-6">
-        <app-info-box1 [cardClass]="'l-bg-cyan-dark'" [iconClass]="'fas fa-users'" [title]="'New Customers'"
-          [value]="154" [progressValue]="40" [progressClass]="'purple-progress'" [percentageChange]="4">
+        <app-info-box1 [cardClass]="'l-bg-cyan-dark'" [iconClass]="'fas fa-users'" [title]="'Transactions'"
+          [value]=transactions  >
+        </app-info-box1>
+      </div>
+
+
+      <div class="col-xl-3 col-lg-6">
+        <app-info-box1 [cardClass]="'l-bg-purple-dark'" [iconClass]="'fa fa-globe'" [title]="'Plateformes'" [value]=plateformes
+          [progressClass]="'green-progress'" >
         </app-info-box1>
       </div>
 
       <div class="col-xl-3 col-lg-6">
-        <app-info-box1 [cardClass]="'l-bg-purple-dark'" [iconClass]="'fa fa-globe'" [title]="'Inquiry'" [value]="524"
-          [progressValue]="40" [progressClass]="'green-progress'" [percentageChange]="23">
-        </app-info-box1>
-      </div>
-
-      <div class="col-xl-3 col-lg-6">
-        <app-info-box1 [cardClass]="'l-bg-orange-dark'" [iconClass]="'fa fa-money-bill-alt'" [title]="'Earning'"
-          [value]="'$2,453'" [progressValue]="40" [progressClass]="'sky-progress'" [percentageChange]="-6">
+        <app-info-box1 [cardClass]="'l-bg-orange-dark'" [iconClass]="'fa fa-money-bill-alt'" [title]="'Apis'"
+          [value]=apis >
         </app-info-box1>
       </div>
     </div>
@@ -137,8 +138,8 @@
         <mat-card>
 
           <mat-card-header class="header-style">
-            <mat-card-title>Transactions</mat-card-title>
-            <a mat-button color="primary" href="#" (click)="viewTransaction();">Tout Voir</a>
+            <mat-card-title>Plateformes</mat-card-title>
+            <!--<a mat-button color="primary" href="#" (click)="viewTransaction();">Tout Voir</a>-->
           </mat-card-header>
           <mat-card-content>
             <ng-scrollbar style="height: 400px" visibility="hover">

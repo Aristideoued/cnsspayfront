@@ -28,6 +28,13 @@ export const ADMIN_ROUTE: Route[] = [
       ),
   },
   {
+    path: 'api',
+    loadChildren: () =>
+      import('./api/api.routes').then(
+        (m) => m.API_ROUTE
+      ),
+  },
+  {
     path: 'clients',
     loadChildren: () =>
       import('./clients/clients.routes').then((m) => m.ADMIN_CLIENT_ROUTE),

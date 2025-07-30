@@ -80,6 +80,11 @@ export type ChartOptions = {
 export class Dashboard2Component implements OnInit {
   public lineChartOptions!: Partial<ChartOptions>;
   public pieChartOptions!: Partial<ChartOptions>;
+
+  transactions:number=0
+  apis:number=0
+  plateformes:number=0
+  paiements:number=0
   //  color: ["#3FA7DC", "#F6A025", "#9BC311"],
   constructor( public employeesService: EmployeesService,    private router: Router,
 
@@ -90,6 +95,7 @@ export class Dashboard2Component implements OnInit {
    // this.chart1();
     //this.chart2();
     this.loadData()
+    this.loadStatData()
   }
 
   private chart1() {
@@ -176,6 +182,23 @@ export class Dashboard2Component implements OnInit {
         next: (data:any) => {
           
           this.leaveRequestData= data.content;
+         
+        
+        },
+        error: (err) => console.error(err),
+      });
+    }
+
+    
+    loadStatData() {
+      this.employeesService.getStat().subscribe({
+        next: (data:any) => {
+          
+         console.log(data)
+         this.plateformes=data.totalPlateformes
+         this.transactions=data.totalTransactions
+         this.apis=data.totalApis
+         this.paiements=data.totalPayouts
          
         
         },

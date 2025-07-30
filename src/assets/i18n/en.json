@@ -61,6 +61,14 @@
         "PAYSLIP": ""
       }
     },
+
+       "API": {
+      "TEXT": "Apis",
+      "LIST": {
+        "API": "Apis disponibles"
+      
+      }
+    },
     "LEADERS": {
       "TEXT": "Responsables"
     },

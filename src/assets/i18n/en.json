@@ -101,7 +101,7 @@
       "ATTENDANCE": "Présence",
       "MY-LEAVES": "Mes congés",
       "MYTEAM": "Mon équipe",
-      "MYPROJECTS": "Mes projets",
+      "MYPROJECTS": "Mes plateformes",
       "MYTASKS": "Mes tâches",
       "SETTINGS": "Paramètres",
       "CHAT": "Messagerie"
@@ -135,10 +135,24 @@
       "TEXT": "Client",
       "DASHBOARD": "Tableau de bord",
       "PROJECTS": {
-        "TEXT": "Projets",
+        "TEXT": "Plateformes",
         "LIST": {
-          "MY-PROJECTS": "Mes projets",
+          "MY-PROJECTS": "Mes plateformes",
           "PROJECT-DETAILS": "Détails du projet"
+        }
+      },
+      "TRANSACTIONS": {
+        "TEXT": "Transactions",
+        "LIST": {
+          "TRANSACTIONS": "Transactions"
+         
+        }
+      },
+      "PAYOUTS": {
+        "TEXT": "Paiements",
+        "LIST": {
+          "PAYOUTS": "Paiements"
+         
         }
       },
       "SUPPORTS": {

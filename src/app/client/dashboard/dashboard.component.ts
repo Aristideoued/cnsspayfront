@@ -24,6 +24,8 @@ import { ProjectHoursComponent } from '@shared/components/project-hours/project-
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { TableCardComponent } from '@shared/components/table-card/table-card.component';
 import { ReviewWidgetComponent } from '@shared/components/review-widget/review-widget.component';
+import { TransactionsComponent } from "../transactions/transactions.component";
+import { PayoutsComponent } from "../payouts/payouts.component";
 export type areaChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -77,15 +79,17 @@ export type radialChartOptions = {
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     imports: [
-        BreadcrumbComponent,
-        NgApexchartsModule,
-        MatCardModule,
-        NgScrollbarModule,
-        StatisticCard2Component,
-        ProjectHoursComponent,
-        TableCardComponent,
-        ReviewWidgetComponent,
-    ]
+    BreadcrumbComponent,
+    NgApexchartsModule,
+    MatCardModule,
+    NgScrollbarModule,
+    StatisticCard2Component,
+    ProjectHoursComponent,
+    TableCardComponent,
+    ReviewWidgetComponent,
+    TransactionsComponent,
+    PayoutsComponent
+]
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('chart') chart!: ChartComponent;

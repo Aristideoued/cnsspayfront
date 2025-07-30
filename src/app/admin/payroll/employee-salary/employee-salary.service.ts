@@ -59,6 +59,14 @@ export class EmployeeSalaryService {
     return this.httpClient.get<Payout[]>(environment.apiUrl + "payout/liste", { headers });
   }
 
+    getAllPayoutByPlateforme(idPlateforme:string): Observable<Payout[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<Payout[]>(environment.apiUrl + "payout/by-plateforme/"+idPlateforme, { headers });
+  }
 
     getPlateformesWithTransaction(): Observable<Plateforme[]> {
     const headers = new HttpHeaders({

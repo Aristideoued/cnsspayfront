@@ -185,7 +185,7 @@
       "path": "",
       "title": "MENUITEMS.CLIENT.PROJECTS.TEXT",
       "iconType": "feather",
-      "icon": "book",
+      "icon": "package",
       "class": "menu-toggle",
       "groupTitle": false,
       "badge": "",
@@ -203,26 +203,15 @@
           "badgeClass": "",
           "role": [""],
           "submenu": []
-        },
-        {
-          "path": "/client/projects/projectDetails",
-          "title": "MENUITEMS.CLIENT.PROJECTS.LIST.PROJECT-DETAILS",
-          "iconType": "",
-          "icon": "",
-          "class": "ml-menu",
-          "groupTitle": false,
-          "badge": "",
-          "badgeClass": "",
-          "role": [""],
-          "submenu": []
         }
+       
       ]
     },
-    {
+     {
       "path": "",
-      "title": "MENUITEMS.CLIENT.SUPPORTS.TEXT",
+      "title": "MENUITEMS.CLIENT.TRANSACTIONS.TEXT",
       "iconType": "feather",
-      "icon": "slack",
+      "icon": "package",
       "class": "menu-toggle",
       "groupTitle": false,
       "badge": "",
@@ -230,20 +219,8 @@
       "role": ["Client"],
       "submenu": [
         {
-          "path": "/client/supports/tickets",
-          "title": "MENUITEMS.CLIENT.SUPPORTS.LIST.TICKETS",
-          "iconType": "",
-          "icon": "",
-          "class": "ml-menu",
-          "groupTitle": false,
-          "badge": "",
-          "badgeClass": "",
-          "role": [""],
-          "submenu": []
-        },
-        {
-          "path": "/client/supports/ticketDetails",
-          "title": "MENUITEMS.CLIENT.SUPPORTS.LIST.TICKET-DETAILS",
+          "path": "/client/transactions",
+          "title": "MENUITEMS.CLIENT.TRANSACTIONS.LIST.TRANSACTIONS",
           "iconType": "",
           "icon": "",
           "class": "ml-menu",
@@ -253,45 +230,40 @@
           "role": [""],
           "submenu": []
         }
+       
       ]
     },
 
-    {
-      "path": "/client/billing",
-      "title": "MENUITEMS.CLIENT.BILLING",
+     {
+      "path": "",
+      "title": "MENUITEMS.CLIENT.PAYOUTS.TEXT",
       "iconType": "feather",
-      "icon": "file-text",
-      "class": "",
+      "icon": "package",
+      "class": "menu-toggle",
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
       "role": ["Client"],
-      "submenu": []
-    },
-    {
-      "path": "/client/chat",
-      "title": "MENUITEMS.CLIENT.CHAT",
-      "iconType": "feather",
-      "icon": "message-circle",
-      "class": "",
-      "groupTitle": false,
-      "badge": "",
-      "badgeClass": "",
-      "role": ["Client"],
-      "submenu": []
-    },
-    {
-      "path": "/client/settings",
-      "title": "MENUITEMS.CLIENT.SETTINGS",
-      "iconType": "feather",
-      "icon": "settings",
-      "class": "",
-      "groupTitle": false,
-      "badge": "",
-      "badgeClass": "",
-      "role": ["Client"],
-      "submenu": []
+      "submenu": [
+        {
+          "path": "/client/payouts",
+          "title": "MENUITEMS.CLIENT.PAYOUTS.LIST.PAYOUTS",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        }
+       
+      ]
     }
+    
+
+  
+ 
 
 
   

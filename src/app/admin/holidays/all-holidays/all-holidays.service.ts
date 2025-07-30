@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { AllHoliday } from './all-holidays.model';
 import { environment } from 'environments/environment.development';
 import { AuthService } from '@core/service/auth.service';
+import { Transaction } from './transaction.model';
 
 @Injectable({
   providedIn: 'root',
@@ -99,13 +100,22 @@ export class HolidayService {
         );
     }
 
- getAllTransaction(): Observable<AllHoliday[]> {
+ getAllTransaction(): Observable<Transaction[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': "Bearer "+this.authService.currentUserValue.token
     });
 
-    return this.httpClient.get<AllHoliday[]>(environment.apiUrl + "transaction/liste", { headers });
+    return this.httpClient.get<Transaction[]>(environment.apiUrl + "transaction/liste", { headers });
+  }
+
+   getAllTransactionByPlateforme(idPlateforme:string): Observable<Transaction[]> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+this.authService.currentUserValue.token
+    });
+
+    return this.httpClient.get<Transaction[]>(environment.apiUrl + "transaction/by-plateforme/"+idPlateforme, { headers });
   }
     addDomaine(abonnement: AllHoliday,dateExpiration:any): Observable<AllHoliday> {
       const headers = new HttpHeaders({

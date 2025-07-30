@@ -5,6 +5,7 @@ export class AuthModel {
   type!: string;
   role!:string
   username!:string
+  userId!:string;
  
  
 }

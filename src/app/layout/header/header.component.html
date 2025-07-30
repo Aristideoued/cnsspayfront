@@ -5,7 +5,7 @@
         (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
       <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
       <a class="navbar-brand" routerLink={{homePage}}>
-        <img src="assets/images/logo.png" alt="" />
+        <img src="assets/images/header/logo.png" alt="" />
         <span class="logo-name">CNSSPAY</span>
       </a>
     </div>
@@ -99,7 +99,7 @@
             <div class="noti-list">
               <div class="menu ">
                 <div class="user_dw_menu">
-                  <button mat-menu-item class="user-item-list">
+                  <!--<button mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Account
                   </button>
                   <button mat-menu-item class="user-item-list">
@@ -107,7 +107,7 @@
                   </button>
                   <button mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Settings
-                  </button>
+                  </button>-->
                   <button mat-menu-item (click)="logout()" class="user-item-list">
                     <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Logout
                   </button>

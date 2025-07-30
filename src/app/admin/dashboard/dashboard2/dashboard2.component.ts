@@ -31,6 +31,10 @@ import {
 } from '@shared/components/progress-table/progress-table.component';
 import { EarningSourceComponent } from '@shared/components/earning-source/earning-source.component';
 import { TableCardComponent } from '@shared/components/table-card/table-card.component';
+import { AllemployeesComponent } from "app/admin/employees/allEmployees/allemployees.component";
+import { AllHolidayComponent } from "app/admin/holidays/all-holidays/all-holidays.component";
+import { EmployeesService } from 'app/admin/employees/allEmployees/employees.service';
+import { Router } from '@angular/router';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -56,31 +60,36 @@ export type ChartOptions = {
     templateUrl: './dashboard2.component.html',
     styleUrls: ['./dashboard2.component.scss'],
     imports: [
-        BreadcrumbComponent,
-        MatProgressBarModule,
-        NgApexchartsModule,
-        MatCardModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        NgScrollbar,
-        InfoBox1Component,
-        RecentCommentsComponent,
-        ProgressTableComponent,
-        EarningSourceComponent,
-        TableCardComponent,
-    ]
+    BreadcrumbComponent,
+    MatProgressBarModule,
+    NgApexchartsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    NgScrollbar,
+    InfoBox1Component,
+    RecentCommentsComponent,
+    ProgressTableComponent,
+    EarningSourceComponent,
+    TableCardComponent,
+    AllemployeesComponent,
+    AllHolidayComponent
+]
 })
 export class Dashboard2Component implements OnInit {
   public lineChartOptions!: Partial<ChartOptions>;
   public pieChartOptions!: Partial<ChartOptions>;
   //  color: ["#3FA7DC", "#F6A025", "#9BC311"],
-  constructor() {
+  constructor( public employeesService: EmployeesService,    private router: Router,
+
+  ) {
     // controller code
   }
   ngOnInit() {
-    this.chart1();
-    this.chart2();
+   // this.chart1();
+    //this.chart2();
+    this.loadData()
   }
 
   private chart1() {
@@ -157,7 +166,22 @@ export class Dashboard2Component implements OnInit {
       },
     };
   }
+  viewTransaction(){
+    this.router.navigate(['/admin/holidays/all-holidays'])
 
+  }
+
+    loadData() {
+      this.employeesService.getPlateforme().subscribe({
+        next: (data:any) => {
+          
+          this.leaveRequestData= data.content;
+         
+        
+        },
+        error: (err) => console.error(err),
+      });
+    }
   private chart2() {
     this.pieChartOptions = {
       series2: [44, 55, 13, 43, 22],
@@ -270,8 +294,9 @@ export class Dashboard2Component implements OnInit {
   ];
 
   // leave request data
+  leaveRequestData=[]
 
-  leaveRequestData = [
+  leaveRequestData2 = [
     {
       id: 'ID7865',
       name: 'Jens Brincker',
@@ -362,7 +387,27 @@ export class Dashboard2Component implements OnInit {
     },
   ];
 
-  leaveRequestColumn = [
+  leaveRequestColumn =[
+    
+    { def: 'nom', label: 'Nom', type: 'text', visible: true },
+    { def: 'totalMontantTransactions', label: 'Total transactions (HT)', type: 'text', visible: true },
+    { def: 'totalMontantTransactionsTTC', label: 'Total transactions (TTC)', type: 'text', visible: true },
+    { def: 'totalMontantPayouts', label: 'Total paiement (HT)', type: 'text', visible: true },
+    
+    { def: 'totalMontantPayoutsTTC', label: 'Total paiement (TTC)', type: 'text', visible: true },
+
+
+
+    { def: 'url', label: 'Url', type: 'url', visible: true },
+        { def: 'callbackUrl', label: 'Url de retour', type: 'url', visible: true },
+
+     { def: 'commissionAgregateur', label: 'CommissionAgregateur', type: 'name', visible: true },
+     { def: 'userNomPrenom', label: 'Administrateur', type: 'text', visible: true },
+    { def: 'userTelephone', label: 'Téléphone Administrateur', type: 'phone', visible: true },
+    { def: 'userMail', label: 'Email Administrateur', type: 'email', visible: true },
+  ];
+  
+ /* [
     { def: 'id', label: 'ID', type: 'text' },
     { def: 'name', label: 'Employee Name', type: 'text' },
     { def: 'leaveType', label: 'Leave Type', type: 'text' },
@@ -371,5 +416,5 @@ export class Dashboard2Component implements OnInit {
     { def: 'days', label: 'Days', type: 'number' },
     { def: 'status', label: 'Status', type: 'badge' },
     { def: 'detailsLink', label: 'Details', type: 'button' },
-  ];
+  ];*/
 }

@@ -36,6 +36,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { Plateforme } from 'app/admin/employees/allEmployees/employees.model';
+import { EmployeesService } from 'app/admin/employees/allEmployees/employees.service';
 
 @Component({
     selector: 'app-myprojects',
@@ -62,23 +64,34 @@ import { FormsModule } from '@angular/forms';
     ]
 })
 export class MyProjectsComponent implements OnInit, OnDestroy {
-  columnDefinitions = [
+ columnDefinitions = [
     { def: 'select', label: 'Checkbox', type: 'check', visible: true },
-    { def: 'pName', label: 'Project Name', type: 'text', visible: true },
-    { def: 'type', label: 'Project Type', type: 'text', visible: true },
-    { def: 'open_task', label: 'Open Tasks', type: 'text', visible: true },
-    { def: 'lead_name', label: 'Lead Name', type: 'text', visible: true },
-    { def: 'status', label: 'Status', type: 'text', visible: true },
-    { def: 'create_date', label: 'Created Date', type: 'date', visible: true },
-    { def: 'last_modify', label: 'Last Modified', type: 'date', visible: true },
-    { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
+    { def: 'id', label: 'ID', type: 'text', visible: false },
+    { def: 'userId', label: 'USERID', type: 'text', visible: false },
+        { def: 'token', label: 'Token', type: 'text', visible: false },
+
+    { def: 'nom', label: 'Nom', type: 'text', visible: true },
+    { def: 'totalMontantTransactions', label: 'Total transactions (HT)', type: 'text', visible: true },
+    { def: 'totalMontantTransactionsTTC', label: 'Total transactions (TTC)', type: 'text', visible: true },
+    { def: 'totalMontantPayouts', label: 'Total paiement (HT)', type: 'text', visible: true },
+    
+    { def: 'totalMontantPayoutsTTC', label: 'Total paiement (TTC)', type: 'text', visible: true },
+
+
+
+    { def: 'url', label: 'Url', type: 'url', visible: true },
+        { def: 'callbackUrl', label: 'Url de retour', type: 'url', visible: true },
+
+     { def: 'commissionAgregateur', label: 'CommissionAgregateur', type: 'name', visible: true },
+   // { def: 'actions', label: 'Actions', type: 'actionBtn', visible: true },
   ];
 
-  dataSource = new MatTableDataSource<MyProjects>([]);
-  selection = new SelectionModel<MyProjects>(true, []);
-  contextMenuPosition = { x: '0px', y: '0px' };
-  isLoading = true;
-  private destroy$ = new Subject<void>();
+   avatar="assets/images/avatar.jpg"
+   dataSource = new MatTableDataSource<Plateforme>([]);
+   selection = new SelectionModel<Plateforme>(true, []);
+   contextMenuPosition = { x: '0px', y: '0px' };
+   isLoading = true;
+   private destroy$ = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -89,7 +102,8 @@ export class MyProjectsComponent implements OnInit, OnDestroy {
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public myProjectsService: MyProjectsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+     public employeesService: EmployeesService,
   ) {}
 
   ngOnInit() {
@@ -111,21 +125,20 @@ export class MyProjectsComponent implements OnInit, OnDestroy {
       .map((cd) => cd.def);
   }
 
-  loadData() {
-    this.myProjectsService.getAllMyProjects().subscribe({
-      next: (data) => {
-        this.dataSource.data = data;
-        this.isLoading = false;
-        this.refreshTable();
-        this.dataSource.filterPredicate = (data: MyProjects, filter: string) =>
-          Object.values(data).some((value) =>
-            value.toString().toLowerCase().includes(filter)
-          );
-      },
-      error: (err) => console.error(err),
-    });
-  }
-
+   loadData() {
+     this.employeesService.getPlateformeByUserId().subscribe({
+       next: (data:any) => {
+         this.dataSource.data = data;
+         this.isLoading = false;
+         this.refreshTable();
+         this.dataSource.filterPredicate = (data: Plateforme, filter: string) => {
+           const searchStr = `${data.id} ${data.url} ${data.nom} ${data.userNomPrenom} ${data.userTelephone} ${data.userMail} ${data.commissionAgregateur}`.toLowerCase();
+           return searchStr.includes(filter);
+         };
+       },
+       error: (err) => console.error(err),
+     });
+   }
   private refreshTable() {
     this.paginator.pageIndex = 0;
     this.dataSource.paginator = this.paginator;
@@ -180,7 +193,7 @@ export class MyProjectsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateRecord(updatedRecord: MyProjects) {
+  private updateRecord(updatedRecord: Plateforme) {
     const index = this.dataSource.data.findIndex(
       (record) => record.id === updatedRecord.id
     );
@@ -190,7 +203,7 @@ export class MyProjectsComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteItem(row: MyProjects) {
+  deleteItem(row: Plateforme) {
     const dialogRef = this.dialog.open(MyProjectsDeleteComponent, {
       data: row,
     });
@@ -226,15 +239,18 @@ export class MyProjectsComponent implements OnInit, OnDestroy {
 
   exportExcel() {
     const exportData = this.dataSource.filteredData.map((x) => ({
-      'Project Name': x.pName,
-      'Project Type': x.type,
-      'Open Tasks': x.open_task,
-      'Last Modified':
-        formatDate(new Date(x.last_modify), 'yyyy-MM-dd', 'en') || '',
-      'Created Date':
-        formatDate(new Date(x.create_date), 'yyyy-MM-dd', 'en') || '',
-      Status: x.status,
-      'Lead Name': x.lead_name,
+      ID: x.id,
+      Url: x.url,
+      Nom: x.nom,
+      Admin: x.userNomPrenom,
+      'Téléphone Admin': x.userTelephone,
+      "Email admin": x.userMail,
+      CommissionAgreagateur: x.commissionAgregateur,
+      "Total transactions(TTC)":x.totalMontantTransactionsTTC,
+      "Total transactions(HT)":x.totalMontantTransactions,
+      "Total paiements(TTC)":x.totalMontantPayoutsTTC,
+      "Total paiements(HT)":x.totalMontantPayouts
+      
     }));
 
     TableExportUtil.exportToExcel(exportData, 'projects_export');

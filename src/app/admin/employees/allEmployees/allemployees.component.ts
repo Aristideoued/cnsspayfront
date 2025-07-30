@@ -71,6 +71,14 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
         { def: 'token', label: 'Token', type: 'text', visible: false },
 
     { def: 'nom', label: 'Nom', type: 'text', visible: true },
+    { def: 'totalMontantTransactions', label: 'Total transactions (HT)', type: 'text', visible: true },
+    { def: 'totalMontantTransactionsTTC', label: 'Total transactions (TTC)', type: 'text', visible: true },
+    { def: 'totalMontantPayouts', label: 'Total paiement (HT)', type: 'text', visible: true },
+    
+    { def: 'totalMontantPayoutsTTC', label: 'Total paiement (TTC)', type: 'text', visible: true },
+
+
+
     { def: 'url', label: 'Url', type: 'url', visible: true },
         { def: 'callbackUrl', label: 'Url de retour', type: 'url', visible: true },
 
@@ -292,6 +300,10 @@ export class AllemployeesComponent implements OnInit, OnDestroy {
       'Téléphone Admin': x.userTelephone,
       "Email admin": x.userMail,
       CommissionAgreagateur: x.commissionAgregateur,
+      "Total transactions(TTC)":x.totalMontantTransactionsTTC,
+      "Total transactions(HT)":x.totalMontantTransactions,
+      "Total paiements(TTC)":x.totalMontantPayoutsTTC,
+      "Total paiements(HT)":x.totalMontantPayouts
       
     }));
 

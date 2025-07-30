@@ -12,6 +12,10 @@ export class Plateforme {
   userNomPrenom:string;
   userTelephone: string;
   userMail: string;
+  totalMontantTransactions:number;
+  totalMontantPayouts:number;
+  totalMontantTransactionsTTC:number;
+  totalMontantPayoutsTTC:number;
   
 
   
@@ -41,6 +45,11 @@ export class Plateforme {
     this.userTelephone = employees.userTelephone || '';
     this.url = employees.url || '';
     this.callbackUrl = employees.callbackUrl || '';
+
+     this.totalMontantPayouts = employees.totalMontantPayouts || 0;
+      this.totalMontantPayoutsTTC = employees.totalMontantPayoutsTTC || 0;
+       this.totalMontantTransactions = employees.totalMontantTransactions || 0;
+        this.totalMontantTransactionsTTC = employees.totalMontantTransactionsTTC || 0;
     
     
     // Initialiser les nouvelles propriétés

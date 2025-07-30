@@ -123,13 +123,18 @@ export class SigninComponent
           "token":response.token,
           "type":response.type,
           "role":role,
-            "username":response.username
+            "username":response.username,
+            "userId":response.userId
+
         
         }
         console.log("Admin====> ",admin)
          localStorage.setItem('currentUser', JSON.stringify(admin));
+         setTimeout(() => {
+                   this.router.navigate(['/admin/dashboard/main']);
+
+         }, 3000);
       
-         this.router.navigate(['/admin/dashboard/main']);
      
       },
       error: (error) => {
@@ -228,11 +233,18 @@ export class SigninComponent
           "token":response.token,
           "type":response.type,
           "role":role,
-            "username":response.username
+            "username":response.username,
+            "userId":response.userId
+
         
         }
+
         localStorage.setItem('currentUser', JSON.stringify(admin));
-        this.router.navigate(['/client/dashboard']);
+
+        setTimeout(() => {
+                  this.router.navigate(['/client/dashboard']);
+
+        }, 3000);
 
           /*setTimeout(() => {
                 const role = beneficiaire.role;
